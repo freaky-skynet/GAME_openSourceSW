@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3ycgff47exhc"]
+
+[ext_resource type="Texture2D" uid="uid://c7k2b6r7e8au3" path="res://sampleBoss.png" id="1_0bnu1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6xxrv"]
+size = Vector2(128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_skx2t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0bnu1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Boss" type="CharacterBody2D"]
+collision_layer = 16
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6xxrv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_skx2t")
