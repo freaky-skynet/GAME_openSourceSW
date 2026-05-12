@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export var speed: float = 400.0 #이동 속도
-@export var bullet_scene: PackedScene
+@onready var player_bullet_manager=%PlayerBulletManager
 @onready var shoot_timer=$ShootTimer
 
 func _physics_process(_delta):
@@ -41,19 +41,5 @@ func _on_shoot_timer_timeout():
 	shoot()
 	
 func shoot():
-	if bullet_scene:
-	# 1. 총알 인스턴스 생성
-		var bullet = bullet_scene.instantiate()
-		
-# 2. BulletManager 노드 찾기
-		var bullet_manager = get_node_or_null("../../BulletManager") 
-		if bullet_manager:
-			bullet_manager.add_child(bullet)
-		else:
-			# 혹시라도 매니저를 못 찾으면 게임이 멈추지 않게 루트에라도 넣어줌
-			get_tree().root.add_child(bullet)
-		# 3. 위쪽 방향 설정 # 고도 엔진에서 위쪽은 Vector2.UP (0, -1)
-		var direction = Vector2.UP 
-		var shoot_point = global_position
-		# 4. 발사 실행 (위치와 방향 전달)
-		bullet.launch(shoot_point, direction)
+	var dir:Vector2=Vector2.UP
+	player_bullet_manager.fire_bullet(global_position, dir)

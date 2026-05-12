@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcrjft847m3f3"]
+[gd_scene format=3 uid="uid://dcrjft847m3f3"]
 
 [ext_resource type="Texture2D" uid="uid://db1ou1lb3saga" path="res://playerbullet.png" id="1_mbmgk"]
 [ext_resource type="Script" uid="uid://c6vkeslg882un" path="res://player_bullet.gd" id="1_oxuh6"]
@@ -6,17 +6,17 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oxuh6"]
 size = Vector2(4, 4)
 
-[node name="PlayerBullet" type="Area2D"]
+[node name="PlayerBullet" type="Area2D" unique_id=734933520]
 collision_layer = 2
 collision_mask = 16
 script = ExtResource("1_oxuh6")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1392341265]
 texture = ExtResource("1_mbmgk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1815179549]
 shape = SubResource("RectangleShape2D_oxuh6")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=882322792]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
