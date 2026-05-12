@@ -20,7 +20,7 @@ func fire_bullet(pos: Vector2, dir: Vector2):
 	if bullet:
 		bullet.activate(pos, dir)
 	else:
-		# 탄환이 모자라면...
+		# 탄환이 모자라면
 		print("Bullet pool is full")
 
 # object "pull"ing from pool

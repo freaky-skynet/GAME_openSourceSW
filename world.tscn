@@ -2,29 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://b62tm8kkr02e8" path="res://player.tscn" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://boss.tscn" id="2_aqk2v"]
-[ext_resource type="Script" uid="uid://d1kyy5stekrwc" path="res://player_bullet_manager.gd" id="3_aqk2v"]
-[ext_resource type="Script" uid="uid://bpsfvb7gjd7lb" path="res://boss_bullet_manager.gd" id="4_036b0"]
-[ext_resource type="Script" uid="uid://c6vkeslg882un" path="res://player_bullet.gd" id="4_dwbse"]
-[ext_resource type="Texture2D" uid="uid://db1ou1lb3saga" path="res://playerbullet.png" id="5_pkg7o"]
-[ext_resource type="PackedScene" uid="uid://dgbbracj0qs7y" path="res://boss_bullet.tscn" id="7_pkg7o"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oxuh6"]
-size = Vector2(4, 4)
-
-[sub_resource type="PackedScene" id="PackedScene_gbfbk"]
-_bundled = {
-"conn_count": 1,
-"conns": PackedInt32Array(0, 0, 11, 10, 2, 0, 0),
-"editable_instances": [],
-"id_paths": [],
-"names": PackedStringArray("PlayerBullet", "collision_layer", "collision_mask", "script", "Area2D", "Sprite2D", "texture", "CollisionShape2D", "shape", "VisibleOnScreenNotifier2D", "_on_body_entered", "body_entered"),
-"node_count": 4,
-"node_ids": PackedInt32Array(734933520, 1392341265, 1815179549, 882322792),
-"node_paths": [],
-"nodes": PackedInt32Array(-1, -1, 4, 0, -1, 3, 1, 0, 2, 1, 3, 2, 0, 0, 0, 5, 5, -1, 1, 6, 3, 0, 0, 0, 7, 7, -1, 1, 8, 4, 0, 0, 0, 9, 9, -1, 0, 0),
-"variants": [2, 16, ExtResource("4_dwbse"), ExtResource("5_pkg7o"), SubResource("RectangleShape2D_oxuh6")],
-"version": 3
-}
+[ext_resource type="PackedScene" uid="uid://dapetvp7r0k4m" path="res://player_bullet_manager.tscn" id="3_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://s3dfv18bdqsl" path="res://boss_bullet_manager.tscn" id="4_036b0"]
 
 [node name="World" type="Node2D" unique_id=41328882]
 
@@ -39,12 +18,8 @@ speed = 400.0
 [node name="Boss" parent="ObjectLayer" unique_id=574752634 instance=ExtResource("2_aqk2v")]
 position = Vector2(256, 168)
 
-[node name="PlayerBulletManager" type="Node2D" parent="." unique_id=445646259]
+[node name="PlayerBulletManager" parent="." unique_id=1369619833 instance=ExtResource("3_aqk2v")]
 unique_name_in_owner = true
-script = ExtResource("3_aqk2v")
-player_bullet = SubResource("PackedScene_gbfbk")
 
-[node name="BossBulletManager" type="Node2D" parent="." unique_id=1569147776]
+[node name="BossBulletManager" parent="." unique_id=424391369 instance=ExtResource("4_036b0")]
 unique_name_in_owner = true
-script = ExtResource("4_036b0")
-boss_bullet = ExtResource("7_pkg7o")

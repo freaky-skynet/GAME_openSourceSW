@@ -13,8 +13,7 @@ func _physics_process(_delta):
 	if direction != Vector2.ZERO:
 		velocity = direction * speed
 	else:
-		# 서서히 멈추고 싶다면 lerp
-		# 즉각적인 정지는 zero
+		#인풋없으면 정지 
 		velocity = Vector2.ZERO
 	
 	#이동 및 충돌 처리

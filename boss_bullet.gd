@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var speed: float = 500.0
+@export var boss_scene: PackedScene
 var direction: Vector2 = Vector2.ZERO
 var is_active: bool = false
 
@@ -43,5 +44,5 @@ func deactivate():
 	# 성능 최적화(연산 제거)
 	set_process(false)
 	set_physics_process(false)
-	set_deferred("monitoring", false)
-	set_deferred("monitorable", false)
+	monitoring = false
+	monitorable = false

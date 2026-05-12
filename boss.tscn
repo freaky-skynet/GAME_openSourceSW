@@ -19,7 +19,7 @@ animations = [{
 
 [node name="Boss" type="CharacterBody2D" unique_id=42220005]
 collision_layer = 16
-collision_mask = 7
+collision_mask = 3
 script = ExtResource("1_6xxrv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=285048296]
@@ -27,3 +27,9 @@ shape = SubResource("RectangleShape2D_6xxrv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=20045618]
 sprite_frames = SubResource("SpriteFrames_skx2t")
+
+[node name="Timer" type="Timer" parent="." unique_id=1165638491]
+wait_time = 0.1
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
