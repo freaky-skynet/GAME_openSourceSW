@@ -1,18 +1,47 @@
 extends Area2D
 
-@export var speed: float = 500.0 # 총알 속도
-var direction: Vector2 = Vector2.ZERO # 날아갈 방향을 저장할 변수
+@export var speed: float = 500.0
+var direction: Vector2 = Vector2.ZERO
+var is_active: bool = false
 
-func _process(delta):
-# 매 프레임마다 정해진 방향으로 speed만큼 이동
+func _ready():
+	# 처음에 생성될 때는 비활성화 상태로 시작
+	deactivate()
+
+func _physics_process(delta):
+	if not is_active:
+		return
+	
+	# 탄환 이동 로직
 	position += direction * speed * delta
-# 플레이어가 소환할 때 호출하는 함수 (이게 없어서 에러가 났던 거야!)
-func launch(start_pos: Vector2, target_dir: Vector2):
-	global_position = start_pos # 시작 위치 설
-	direction = target_dir
+	
+	# 화면 밖으로 나가면 스스로 비활성화 (화면 크기는 프로젝트 설정을 따름)
+	var screen_size = get_viewport_rect().size
+	if position.x < -50 or position.x > screen_size.x + 50 or \
+	   position.y < -50 or position.y > screen_size.y + 50:
+		deactivate()
 
-func _on_body_entered(body):
-	# 닿은 대상(body)이 CharacterBody2D인지 확인해!
-	if body is CharacterBody2D:
-		# 여기에 적에게 데미지를 주는 코드를 넣어도 좋아...!
-		queue_free()
+func _on_body_entered(body: Node2D) -> void:
+	deactivate()
+
+# 탄환을 다시 사용할 때 호출
+func activate(pos: Vector2, dir: Vector2):
+	position = pos
+	direction = dir.normalized()
+	is_active = true
+	show()
+	# 물리 충돌과 프로세스를 다시 
+	set_process(true)
+	set_physics_process(true)
+	monitoring = true
+	monitorable = true
+
+# 탄환 비활성화 함수
+func deactivate():
+	is_active = false
+	hide()
+	# 성능 최적화(연산 제거)
+	set_process(false)
+	set_physics_process(false)
+	monitoring = false
+	monitorable = false

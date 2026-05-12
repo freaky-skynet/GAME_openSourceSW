@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b62tm8kkr02e8"]
+[gd_scene format=3 uid="uid://b62tm8kkr02e8"]
 
 [ext_resource type="Texture2D" uid="uid://c7e4qxwmnn8mm" path="res://samplePlayer.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://c4bmtlt4au8bo" path="res://player.gd" id="1_onrkg"]
@@ -18,17 +18,18 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=518452283]
 script = ExtResource("1_onrkg")
+speed = null
 bullet_scene = ExtResource("2_i3pqv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=541012137]
 shape = SubResource("CapsuleShape2D_onrkg")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1811005011]
 sprite_frames = SubResource("SpriteFrames_i3pqv")
 
-[node name="ShootTimer" type="Timer" parent="."]
+[node name="ShootTimer" type="Timer" parent="." unique_id=364727572]
 wait_time = 0.1
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
