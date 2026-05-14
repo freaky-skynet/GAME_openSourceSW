@@ -1,3 +1,35 @@
-# Godot 4+ specific ignores
+# --- Godot Engine Specific ---
 .godot/
-/android/
+*.uid
+
+# --- C# / Mono / Visual Studio Code ---
+.mono/
+**/[Oo]bj/
+**/[Bb]in/
+*.sln
+*.csproj
+.vscode/
+.idea/
+
+# --- 3D Modeling (Blender) ---
+*.blend1
+*.blend2
+*.blend@
+*.publisher
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Build & Export ---
+/export/
+*.apk
+*.ap_
+*.aab
+*.exe
+*.zip
+
+# --- Other ---
+*.log
+*.tmp
