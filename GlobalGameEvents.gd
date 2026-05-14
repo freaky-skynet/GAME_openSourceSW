@@ -1,3 +1,3 @@
 extends Node
 signal player_hit_enemy(dmg)
-signal combo_level(level)
+var combo_level:int=1

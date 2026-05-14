@@ -25,3 +25,4 @@ _bundled = {
 [node name="PlayerBulletManager" type="Node2D" unique_id=1369619833]
 script = ExtResource("1_a2wpb")
 player_bullet = SubResource("PackedScene_gbfbk")
+pool_size = 100

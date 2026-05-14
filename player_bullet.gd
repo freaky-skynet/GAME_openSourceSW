@@ -1,11 +1,18 @@
 extends Area2D
 
 @export var speed: float = 500.0
+var twinBullet_texture: Texture2D
+var normalBullet_texture:Texture2D
+var sprite:Sprite2D
+
 var direction: Vector2 = Vector2.ZERO
 var is_active: bool = false
 var dmg = 0#콤보레벨과 연계, on_body_entered에서 레벨에 따른 데미지 차등부여
 
 func _ready():
+	sprite=$Sprite2D
+	normalBullet_texture = load("res://playerbullet.png")
+	twinBullet_texture = load("res://playerBulleL2.png")
 	deactivate()
 
 func _physics_process(delta):
@@ -22,25 +29,51 @@ func _physics_process(delta):
 		deactivate()
 		
 func _on_body_entered(_body):
-	GlobalGameEvents.player_hit_enemy.emit(1)#damage 1
+	match GlobalGameEvents.combo_level:
+		1:
+			GlobalGameEvents.player_hit_enemy.emit(1)#damage 1
+		2:#combo_level= 2
+			GlobalGameEvents.player_hit_enemy.emit(5)#damage 5
+		3:
+			GlobalGameEvents.player_hit_enemy.emit(5)#damage 5
 	deactivate()
-'''
-bullet 개체에 level 부여
-activateL2,L3,L1에서 level 바꾸고
-func _on_body_entered()에서 if로 확인, 데미지 따라 emit
-'''
 
 # 탄환을 다시 사용할 때 호출
 func activate(pos: Vector2, dir: Vector2):
-	position = pos
-	direction = dir.normalized()
-	is_active = true
-	show()
-	# 물리 충돌과 프로세스를 다시 
-	set_process(true)
-	set_physics_process(true)
-	monitoring = true
-	monitorable = true
+	match GlobalGameEvents.combo_level:
+		1:
+			position = pos
+			direction = dir.normalized()
+			is_active = true
+			sprite.texture=normalBullet_texture
+			show()
+			# 물리 충돌과 프로세스를 다시 
+			set_process(true)
+			set_physics_process(true)
+			monitoring = true
+			monitorable = true
+		2:#level 2, twin bullets
+			position = pos
+			direction = dir.normalized()
+			is_active = true
+			sprite.texture=twinBullet_texture
+			show()
+			# 물리 충돌과 프로세스를 다시 
+			set_process(true)
+			set_physics_process(true)
+			monitoring = true
+			monitorable = true
+		3:
+			position = pos
+			direction = dir.normalized()
+			is_active = true
+			sprite.texture=twinBullet_texture
+			show()
+			# 물리 충돌과 프로세스를 다시 
+			set_process(true)
+			set_physics_process(true)
+			monitoring = true
+			monitorable = true
 
 # 탄환 비활성화 함수
 func deactivate():
