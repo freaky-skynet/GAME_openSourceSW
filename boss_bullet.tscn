@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dgbbracj0qs7y"]
 
-[ext_resource type="Script" uid="uid://b8vxrbgnjpgxs" path="res://boss_bullet.gd" id="1_rcspk"]
+[ext_resource type="Script" uid="uid://bmrfux4cvtelm" path="res://boss_bullet.gd" id="1_rcspk"]
 [ext_resource type="Texture2D" uid="uid://18ri4d5a2e3b" path="res://bossBullet.png" id="1_ybu4u"]
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://boss.tscn" id="2_6o4xk"]
 

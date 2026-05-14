@@ -21,7 +21,7 @@ func _physics_process(delta):
 		position.y < -20 or position.y > screen_size.y + 20:
 		deactivate()
 		
-func _on_body_entered():
+func _on_body_entered(_body):
 	GlobalGameEvents.player_hit_enemy.emit(1)#damage 1
 	deactivate()
 '''
