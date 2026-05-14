@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7k2b6r7e8au3"
-path="res://.godot/imported/sampleBoss.png-8045ea644e53820c90a3c537bdf95d38.ctex"
+uid="uid://bpjhgwfe0u48k"
+path="res://.godot/imported/playerBulleL2.png-873894d0454e1d69e9645ca4868b78c8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sampleBoss.png"
-dest_files=["res://.godot/imported/sampleBoss.png-8045ea644e53820c90a3c537bdf95d38.ctex"]
+source_file="res://playerBulleL2.png"
+dest_files=["res://.godot/imported/playerBulleL2.png-873894d0454e1d69e9645ca4868b78c8.ctex"]
 
 [params]
 

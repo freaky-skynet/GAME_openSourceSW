@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://boss.tscn" id="2_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://dapetvp7r0k4m" path="res://player_bullet_manager.tscn" id="3_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://s3dfv18bdqsl" path="res://boss_bullet_manager.tscn" id="4_036b0"]
+[ext_resource type="PackedScene" uid="uid://c3dr625gnv3pa" path="res://combo_manager.tscn" id="4_dwbse"]
 
 [node name="World" type="Node2D" unique_id=41328882]
 
@@ -20,6 +21,9 @@ position = Vector2(256, 168)
 
 [node name="PlayerBulletManager" parent="." unique_id=1369619833 instance=ExtResource("3_aqk2v")]
 unique_name_in_owner = true
+combo_manager = ExtResource("4_dwbse")
 
 [node name="BossBulletManager" parent="." unique_id=424391369 instance=ExtResource("4_036b0")]
 unique_name_in_owner = true
+
+[node name="ComboManager" parent="." unique_id=368610195 instance=ExtResource("4_dwbse")]

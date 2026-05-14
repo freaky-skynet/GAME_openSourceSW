@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://c3dr625gnv3pa"]
+
+[ext_resource type="Script" uid="uid://duynlsh41muso" path="res://combo_manager.gd" id="1_53542"]
+
+[node name="ComboManager" type="CanvasLayer" unique_id=368610195]
+
+[node name="ComboControl" type="Control" parent="." unique_id=422546075]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_53542")
+
+[node name="Label" type="Label" parent="ComboControl" unique_id=2132580249]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ComboControl" unique_id=1202426777]
+root_node = NodePath("../..")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="ComboControl" unique_id=1881354547]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ComboTimer" type="Timer" parent="ComboControl" unique_id=2131148376]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="ComboControl/ComboTimer" to="ComboControl" method="_on_combo_timer_timeout"]
