@@ -26,7 +26,10 @@ func fire_bullet(pos: Vector2, dir: Vector2):
 			print("Bullet pool is full")
 	else:
 		player_laser.activate()
-		
+
+func stop_laser():
+	player_laser.deactivate()
+
 # 풀에서 오브젝트 '풀'링하기
 func _get_inactive_bullet():
 	for bullet in bullet_pool:

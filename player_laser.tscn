@@ -1,16 +1,55 @@
 [gd_scene format=3 uid="uid://cr7bs5htpbagg"]
 
 [ext_resource type="Script" uid="uid://b2lkhdu3yw7m3" path="res://player_laser.gd" id="1_47w3t"]
-[ext_resource type="Texture2D" uid="uid://ck2jpivolegy6" path="res://playerBulletL3_2.png" id="2_4f1so"]
+[ext_resource type="Texture2D" uid="uid://cnncrp8dm00ij" path="res://playerBulletL3_2_real.png" id="2_4f1so"]
+[ext_resource type="Texture2D" uid="uid://buiv34orrdh53" path="res://playerBulletL3_1_real.png" id="3_2ivd6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_plu5a"]
+atlas = ExtResource("3_2ivd6")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6b3e"]
+atlas = ExtResource("3_2ivd6")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gtqpp"]
+atlas = ExtResource("3_2ivd6")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e7ukx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_plu5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6b3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gtqpp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
 
 [node name="RayCast2D" type="RayCast2D" unique_id=1441818004]
+z_index = 10
 target_position = Vector2(0, -1000)
 collision_mask = 16
 script = ExtResource("1_47w3t")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=697508053]
-points = PackedVector2Array(0, 0, 0, 0)
-closed = true
-width = 6.0
+texture_filter = 1
+texture_repeat = 2
+points = PackedVector2Array(0, -28, 0, 0)
+width = 12.0
 texture = ExtResource("2_4f1so")
 texture_mode = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1668839196]
+z_index = 4
+z_as_relative = false
+sprite_frames = SubResource("SpriteFrames_e7ukx")
+autoplay = "default"
+offset = Vector2(0, -16)

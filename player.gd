@@ -30,10 +30,11 @@ func _process(_delta):
 
 func start_shooting():
 	shoot_timer.start()
-	shoot() # 누르자마자 첫 발은 바로 발사
 
 func stop_shooting():
 	shoot_timer.stop()
+	if GlobalGameEvents.combo_level==3:
+		player_bullet_manager.stop_laser()
 
 # 타이머의 'timeout' 시그널을 연결
 func _on_shoot_timer_timeout():
