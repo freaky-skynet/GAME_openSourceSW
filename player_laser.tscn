@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cr7bs5htpbagg"]
+
+[ext_resource type="Script" uid="uid://b2lkhdu3yw7m3" path="res://player_laser.gd" id="1_47w3t"]
+[ext_resource type="Texture2D" uid="uid://ck2jpivolegy6" path="res://playerBulletL3_2.png" id="2_4f1so"]
+
+[node name="RayCast2D" type="RayCast2D" unique_id=1441818004]
+target_position = Vector2(0, -1000)
+collision_mask = 16
+script = ExtResource("1_47w3t")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=697508053]
+points = PackedVector2Array(0, 0, 0, 0)
+closed = true
+width = 6.0
+texture = ExtResource("2_4f1so")
+texture_mode = 1

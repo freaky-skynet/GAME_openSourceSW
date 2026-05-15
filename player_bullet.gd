@@ -34,47 +34,30 @@ func _on_body_entered(_body):
 			GlobalGameEvents.player_hit_enemy.emit(1)#damage 1
 		2:#combo_level= 2
 			GlobalGameEvents.player_hit_enemy.emit(5)#damage 5
-		3:
-			GlobalGameEvents.player_hit_enemy.emit(5)#damage 5
 	deactivate()
 
 # 탄환을 다시 사용할 때 호출
 func activate(pos: Vector2, dir: Vector2):
 	match GlobalGameEvents.combo_level:
 		1:
-			position = pos
-			direction = dir.normalized()
-			is_active = true
 			sprite.texture=normalBullet_texture
-			show()
-			# 물리 충돌과 프로세스를 다시 
-			set_process(true)
-			set_physics_process(true)
-			monitoring = true
-			monitorable = true
+			bullet_activate(pos,dir)
 		2:#level 2, twin bullets
-			position = pos
-			direction = dir.normalized()
-			is_active = true
 			sprite.texture=twinBullet_texture
-			show()
-			# 물리 충돌과 프로세스를 다시 
-			set_process(true)
-			set_physics_process(true)
-			monitoring = true
-			monitorable = true
-		3:
-			position = pos
-			direction = dir.normalized()
-			is_active = true
-			sprite.texture=twinBullet_texture
-			show()
-			# 물리 충돌과 프로세스를 다시 
-			set_process(true)
-			set_physics_process(true)
-			monitoring = true
-			monitorable = true
+			bullet_activate(pos,dir)
 
+#탄환전용 활성화함수 
+func bullet_activate(pos: Vector2, dir: Vector2):
+	position = pos
+	direction = dir.normalized()
+	is_active = true
+	show()
+	# 물리 충돌과 프로세스를 다시 켬 
+	set_process(true)
+	set_physics_process(true)
+	monitoring = true
+	monitorable = true
+	
 # 탄환 비활성화 함수
 func deactivate():
 	is_active = false
