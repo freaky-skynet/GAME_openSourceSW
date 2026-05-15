@@ -1,8 +1,11 @@
 extends CharacterBody2D
-
+@export var is_invincible: bool = false
 @export var speed: float = 400.0 #이동 속도
 @onready var player_bullet_manager=%PlayerBulletManager
 @onready var shoot_timer=$ShootTimer
+
+var max_hp: int = 3
+var current_hp: int = 3
 
 func _physics_process(_delta):
 	# 1. 입력 벡터 가져오기 (상하좌우 키 설정을 한 번에 처리)
@@ -43,3 +46,29 @@ func _on_shoot_timer_timeout():
 func shoot():
 	var dir:Vector2=Vector2.UP
 	player_bullet_manager.fire_bullet(global_position, dir)
+	
+
+
+func take_damage(amount: int):
+	# 무적 체크박스가 켜져 있다면, 아래 코드를 무시하고 함수를 나갑니다.
+	if is_invincible:
+		return 
+
+	current_hp -= amount
+	current_hp = max(0, current_hp)
+	
+	print("현재 피: ", current_hp)
+	GlobalGameEvents.hp_changed.emit(current_hp)
+	
+	if current_hp <= 0:
+		die()
+
+
+func die():
+	print("사망")
+	GlobalGameEvents.game_over.emit()
+	
+	# 플레이어 조작 중지 및 숨기기
+	set_physics_process(false)
+	set_process(false)
+	hide()

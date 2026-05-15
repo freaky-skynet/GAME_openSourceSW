@@ -5,7 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://dapetvp7r0k4m" path="res://player_bullet_manager.tscn" id="3_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://s3dfv18bdqsl" path="res://boss_bullet_manager.tscn" id="4_036b0"]
 [ext_resource type="PackedScene" uid="uid://c3dr625gnv3pa" path="res://combo_manager.tscn" id="4_dwbse"]
-[ext_resource type="PackedScene" uid="uid://cr7bs5htpbagg" path="res://player_laser.tscn" id="6_dwbse"]
+[ext_resource type="PackedScene" uid="uid://cr7bs5htpbagg" path="res://player_laser.tscn" id="9_laser"]
+[ext_resource type="Script" uid="uid://wylvek0afbv3" path="res://score_label.gd" id="10_score_label"]
+[ext_resource type="Script" uid="uid://wkcgldqe5w64" path="res://score_manager.gd" id="6_pkg7o"]
+[ext_resource type="Script" uid="uid://d1l72owvdhpsx" path="res://ui_manager.gd" id="7_ioo17"]
+[ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://life_container.gd" id="8_gbfbk"]
 
 [node name="World" type="Node2D" unique_id=41328882]
 
@@ -27,4 +31,63 @@ unique_name_in_owner = true
 
 [node name="ComboManager" parent="." unique_id=368610195 instance=ExtResource("4_dwbse")]
 
-[node name="PlayerLaser" parent="." unique_id=997666265 instance=ExtResource("6_dwbse")]
+[node name="PlayerLaser" parent="." unique_id=997666265 instance=ExtResource("9_laser")]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1778410432]
+
+[node name="ScoreManager" type="Node" parent="UI" unique_id=806712973]
+script = ExtResource("6_pkg7o")
+
+[node name="UIManager" type="Control" parent="UI" unique_id=501301893]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_ioo17")
+
+[node name="ScoreLabel" type="Label" parent="UI/UIManager" unique_id=2076159573]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 50.0
+offset_bottom = 28.0
+script = ExtResource("10_score_label")
+
+[node name="GameOverLayer" type="CanvasLayer" parent="UI/UIManager" unique_id=948347534]
+
+[node name="ColorRect" type="ColorRect" parent="UI/UIManager/GameOverLayer" unique_id=356899749]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -40.0
+offset_right = 65.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="UI/UIManager/GameOverLayer" unique_id=1052648127]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.0
+offset_top = -11.5
+offset_right = 46.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER"
+
+[node name="LifeContainer" type="HBoxContainer" parent="UI" unique_id=1327857375]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+script = ExtResource("8_gbfbk")

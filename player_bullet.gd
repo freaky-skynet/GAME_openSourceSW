@@ -34,6 +34,8 @@ func _on_body_entered(_body):
 			GlobalGameEvents.player_hit_enemy.emit(1)#damage 1
 		2:#combo_level= 2
 			GlobalGameEvents.player_hit_enemy.emit(5)#damage 5
+			
+	GlobalGameEvents.request_score_change.emit(500)
 	deactivate()
 
 # 탄환을 다시 사용할 때 호출
