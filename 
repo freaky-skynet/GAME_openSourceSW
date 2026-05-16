@@ -1,0 +1,81 @@
+[33mcommit e2f1d8a86aad31938359372d69cb87ab4056f0bd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/playerSkill[m[33m, [m[1;31morigin/feature/playerSkill[m[33m)[m
+Author: gosamcha <hyunbean20@gmail.com>
+Date:   Sat May 16 18:52:53 2026 +0900
+
+    add: player dash skill
+
+[33mcommit 2ee3603b9ed38343531524148a9bc0988e38afac[m[33m ([m[1;31morigin/feature/background[m[33m, [m[1;32mfeature/playersSkill[m[33m, [m[1;32mfeature/background[m[33m)[m
+Author: gosamcha <hyunbean20@gmail.com>
+Date:   Sat May 16 18:14:35 2026 +0900
+
+    add: flowing background, camera
+
+[33mcommit 0d3bd30e7789a2539ece723b2c41fc60ed30095a[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: f035577 23a0c56
+Author: freaky-skynet <kwonnunkal@gmail.com>
+Date:   Thu May 14 17:21:30 2026 +0900
+
+    Merge pull request #4 from freaky-skynet/feature/comboSystem
+    
+    Feature/combo system
+
+[33mcommit 23a0c56a79a930fd9535aea67832b5ed5bfc52c4[m[33m ([m[1;31morigin/feature/comboSystemBase[m[33m)[m
+Author: freaky-skynet <kwonnunkal@gmail.com>
+Date:   Thu May 14 16:48:26 2026 +0900
+
+    fix: gitignore 조작으로 인한 godot엔진 내 uid 꼬임 수정
+
+[33mcommit 20dd4b8ad1f6089d1a2ccdf8d71a7d15e917b269[m
+Author: freaky-skynet <kwonnunkal@gmail.com>
+Date:   Thu May 14 15:20:46 2026 +0900
+
+    feat: comboSystem 추가, 터미널 내 출력 확인
+    0513 스태시 적용
+
+[33mcommit f0355772c3314811a0348e3fba810b1b77456831[m
+Merge: 430cede da64f34
+Author: freaky-skynet <kwonnunkal@gmail.com>
+Date:   Tue May 12 18:39:52 2026 +0900
+
+    Merge pull request #2 from freaky-skynet/feature/bossPattern
+    
+    **첫번째 보스패턴 구현 @export로 boss_bullet_manager 씬에서 fire_unit 조정하거나 boss 씬의 Timer 조정하여 유기적으로 난이도 조정 가능하도록 편집함
+    
+    보스<->플레이어 충돌판정 추가
+    
+    인스펙터 CanvasItem 속성->Ordering에서 Z index 조정: 플레이어 5, 보스 0, 플레이어 총알 10, 보스총알 15 ->게임 내에서 보이는 오브젝트의 깊이를 조정함(플레이어보다 위에 보스 총알이 보이도록)
+
+[33mcommit 430cede668157ab4c25cead6d8a473afd7020a99[m
+Merge: f0679c2 a2e89db
+Author: freaky-skynet <kwonnunkal@gmail.com>
+Date:   Tue May 12 18:27:19 2026 +0900
+
+    Merge pull request #1 from freaky-skynet/feature/playerBulletObjectPull
+    
+    feat:플레이어 공격기능 오브젝트 풀링 적용
+
+[33mcommit da64f34311171c639a86316b92369ff1a76978a5[m[33m ([m[1;31morigin/feature/bossPattern[m[33m)[m
+Author: freaky-skynet <kwonnunkal@gmail.com>
+Date:   Tue May 12 17:50:42 2026 +0900
+
+    feat :bosspattern1 외
+    1. **첫번째 보스패턴 구현
+    @export로 boss_bullet_manager 씬에서 fire_unit 조정하거나 boss 씬의 Timer 조정하여 유기적으로 난이도 조정 가능하도록 편집함
+    
+    2. 보스<->플레이어 충돌판정 추가
+    
+    3. 인스펙터 CanvasItem 속성->Ordering에서 Z index 조정: 플레이어 5, 보스 0, 플레이어 총알 10, 보스총알 15
+    ->게임 내에서 보이는 오브젝트의 깊이를 조정함(플레이어보다 위에 보스 총알이 보이도록)
+
+[33mcommit a2e89db786ea57209b7a54d8a47bf205631ad28f[m[33m ([m[1;31morigin/feature/playerBulletObjectPull[m[33m)[m
+Author: freaky-skynet <kwonnunkal@gmail.com>
+Date:   Tue May 12 11:12:57 2026 +0900
+
+    feat:플레이어 공격기능 오브젝트 풀링 적용
+
+[33mcommit f0679c205e4c475c5d1c30b884578edece794fce[m
+Author: freaky-skynet <kwonnunkal@gmail.com>
+Date:   Mon May 11 15:51:30 2026 +0900
+
+    [add] 프로토타입 : 플레이어 이동, 공격 구현
+    5/11 한 플레이어, 보스 충돌판정 구현예정(충돌시 삭제됨, 향후 목숨-1로 수정 필요)

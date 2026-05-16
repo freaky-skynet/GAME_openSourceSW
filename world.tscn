@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://yx3vex85r052"]
 
-[ext_resource type="Script" uid="uid://gnmxsp6re104" path="res://scrolling_background.gd" id="1_pkg7o"]
+[ext_resource type="Script" path="res://scrolling_background.gd" id="1_pkg7o"]
 [ext_resource type="PackedScene" uid="uid://b62tm8kkr02e8" path="res://player.tscn" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://boss.tscn" id="2_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://7stv1167tm41" path="res://background_temp.jpg" id="2_gbfbk"]
 [ext_resource type="PackedScene" uid="uid://dapetvp7r0k4m" path="res://player_bullet_manager.tscn" id="3_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://s3dfv18bdqsl" path="res://boss_bullet_manager.tscn" id="4_036b0"]
 [ext_resource type="PackedScene" uid="uid://c3dr625gnv3pa" path="res://combo_manager.tscn" id="4_dwbse"]
+[ext_resource type="Script" uid="uid://dte7o7thdwyv4" path="res://player_dash.gd" id="4_gbfbk"]
 
 [node name="World" type="Node2D" unique_id=41328882]
 
@@ -23,6 +24,16 @@ texture = ExtResource("2_gbfbk")
 
 [node name="Player" parent="ObjectLayer" unique_id=1361347147 instance=ExtResource("1_tlwt5")]
 position = Vector2(256, 568)
+
+[node name="PlayerDash" type="Node" parent="ObjectLayer/Player" unique_id=1292072977]
+script = ExtResource("4_gbfbk")
+
+[node name="DashDurationTimer" type="Timer" parent="ObjectLayer/Player" unique_id=1172587178]
+wait_time = 0.15
+one_shot = true
+
+[node name="DashCooldownTimer" type="Timer" parent="ObjectLayer/Player" unique_id=1903489169]
+one_shot = true
 
 [node name="Boss" parent="ObjectLayer" unique_id=574752634 instance=ExtResource("2_aqk2v")]
 position = Vector2(256, 168)
