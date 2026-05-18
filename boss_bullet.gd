@@ -22,7 +22,10 @@ func _physics_process(delta):
 	   position.y < -20 or position.y > screen_size.y + 20:
 		deactivate()
 
-func _on_body_entered(_body: Node2D) -> void:
+func _on_body_entered(body: Node2D) -> void:
+	
+	if body.has_method("take_damage"):
+		body.take_damage(1)
 	deactivate()
 
 # 탄환을 다시 사용할 때 호출
