@@ -1,29 +1,62 @@
 extends RayCast2D
-@onready var player=$"../ObjectLayer/Player"
-@onready var line = $Line2D
-@onready var sprite=$AnimatedSprite2D
-var offset:Vector2=Vector2(0,-30)
 
-func _ready():
+@export var damage: int = 5
+@export var damage_interval: float = 0.2
+
+@onready var player = $"../ObjectLayer/Player"
+@onready var line: Line2D = $Line2D
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+var can_damage: bool = true
+
+
+func _ready() -> void:
 	deactivate()
-	
-func _process(delta):
-	global_position=player.global_position
-	line.set_point_position(1, target_position) # 기본은 최대 사거리
-	if is_colliding():
-		print("COLLIDE!")
-		line.set_point_position(1, to_local(get_collision_point()))
-		
-func emit_hit_signal():
-	
-	GlobalGameEvents.player_hit_enemy.emit(5)
 
-func activate():
+
+func _process(_delta: float) -> void:
+	if not player:
+		return
+
+	global_position = player.global_position
+
+	line.set_point_position(1, target_position)
+
+	if is_colliding():
+		line.set_point_position(1, to_local(get_collision_point()))
+
+		var target := get_collider()
+
+		if target and target.has_method("take_damage"):
+			_try_damage(target)
+
+
+func _try_damage(target: Object) -> void:
+	if not can_damage:
+		return
+
+	can_damage = false
+
+	target.take_damage(damage)
+	GlobalGameEvents.player_hit_enemy.emit(damage)
+
+	await get_tree().create_timer(damage_interval).timeout
+
+	can_damage = true
+
+
+func emit_hit_signal() -> void:
+	GlobalGameEvents.player_hit_enemy.emit(damage)
+
+
+func activate() -> void:
 	show()
-	enabled=true
+	enabled = true
 	set_process(true)
 
-func deactivate():
+
+func deactivate() -> void:
 	hide()
-	enabled=false
+	enabled = false
 	set_process(false)
+	can_damage = true
