@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://s3dfv18bdqsl"]
+
+[ext_resource type="Script" uid="uid://bpsfvb7gjd7lb" path="res://scripts/managers/boss_bullet_manager.gd" id="1_wwe1q"]
+[ext_resource type="PackedScene" uid="uid://dgbbracj0qs7y" path="res://scenes/boss/boss_bullet.tscn" id="2_va6jl"]
+
+[node name="BossBulletManager" type="Node2D" unique_id=424391369]
+script = ExtResource("1_wwe1q")
+boss_bullet = ExtResource("2_va6jl")
+fire_unit = 6

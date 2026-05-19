@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://yx3vex85r052"]
+
+[ext_resource type="Script" uid="uid://gnmxsp6re104" path="res://scripts/background/scrolling_background.gd" id="1_2p2jg"]
+[ext_resource type="Texture2D" uid="uid://7stv1167tm41" path="res://assets/images/background/background_temp.jpg" id="2_r1or7"]
+[ext_resource type="PackedScene" uid="uid://b62tm8kkr02e8" path="res://scenes/player/player.tscn" id="3_0w3ym"]
+[ext_resource type="Script" uid="uid://dte7o7thdwyv4" path="res://scripts/player/player_dash.gd" id="4_ailbm"]
+[ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://scenes/boss/boss.tscn" id="5_3wopa"]
+[ext_resource type="PackedScene" uid="uid://dapetvp7r0k4m" path="res://scenes/managers/player_bullet_manager.tscn" id="6_bolsh"]
+[ext_resource type="PackedScene" uid="uid://s3dfv18bdqsl" path="res://scenes/managers/boss_bullet_manager.tscn" id="7_shf8f"]
+[ext_resource type="PackedScene" uid="uid://c3dr625gnv3pa" path="res://scenes/managers/combo_manager.tscn" id="8_pasgk"]
+[ext_resource type="PackedScene" uid="uid://cr7bs5htpbagg" path="res://scenes/player/player_laser.tscn" id="9_moqhu"]
+[ext_resource type="AudioStream" uid="uid://bskcr5dneve4p" path="res://assets/audio/bgm/ParyTalk.mp3" id="10_fvaq5"]
+[ext_resource type="Script" uid="uid://wkcgldqe5w64" path="res://scripts/ui/score_manager.gd" id="11_snr5s"]
+[ext_resource type="Script" uid="uid://d1l72owvdhpsx" path="res://scripts/ui/ui_manager.gd" id="12_2hobn"]
+[ext_resource type="Script" uid="uid://wylvek0afbv3" path="res://scripts/ui/score_label.gd" id="13_kt1us"]
+[ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://scripts/ui/life_container.gd" id="14_uv1xp"]
+
+[node name="World" type="Node2D" unique_id=41328882]
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=1986742591]
+repeat_size = Vector2(480, 640)
+repeat_times = 3
+script = ExtResource("1_2p2jg")
+scroll_speed = Vector2(10, 30)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=754733410]
+texture = ExtResource("2_r1or7")
+
+[node name="ObjectLayer" type="Node2D" parent="." unique_id=1450698538]
+
+[node name="Player" parent="ObjectLayer" unique_id=1361347147 instance=ExtResource("3_0w3ym")]
+position = Vector2(256, 568)
+
+[node name="PlayerDash" type="Node" parent="ObjectLayer/Player" unique_id=1292072977]
+script = ExtResource("4_ailbm")
+
+[node name="DashDurationTimer" type="Timer" parent="ObjectLayer/Player" unique_id=1172587178]
+wait_time = 0.15
+one_shot = true
+
+[node name="DashCooldownTimer" type="Timer" parent="ObjectLayer/Player" unique_id=1903489169]
+one_shot = true
+
+[node name="Boss" parent="ObjectLayer" unique_id=574752634 instance=ExtResource("5_3wopa")]
+position = Vector2(256, 168)
+
+[node name="PlayerBulletManager" parent="." unique_id=1369619833 instance=ExtResource("6_bolsh")]
+unique_name_in_owner = true
+
+[node name="BossBulletManager" parent="." unique_id=424391369 instance=ExtResource("7_shf8f")]
+unique_name_in_owner = true
+
+[node name="ComboManager" parent="." unique_id=368610195 instance=ExtResource("8_pasgk")]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1603792975]
+offset = Vector2(240, 320)
+
+[node name="PlayerLaser" parent="." unique_id=997666265 instance=ExtResource("9_moqhu")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1339975536]
+stream = ExtResource("10_fvaq5")
+autoplay = true
+parameters/looping = true
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1778410432]
+
+[node name="ScoreManager" type="Node" parent="UI" unique_id=806712973]
+script = ExtResource("11_snr5s")
+
+[node name="UIManager" type="Control" parent="UI" unique_id=501301893]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("12_2hobn")
+
+[node name="ScoreLabel" type="Label" parent="UI/UIManager" unique_id=2076159573]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 50.0
+offset_bottom = 28.0
+script = ExtResource("13_kt1us")
+
+[node name="GameOverLayer" type="CanvasLayer" parent="UI/UIManager" unique_id=948347534]
+
+[node name="ColorRect" type="ColorRect" parent="UI/UIManager/GameOverLayer" unique_id=356899749]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -65.0
+offset_top = -40.0
+offset_right = 65.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="UI/UIManager/GameOverLayer" unique_id=1052648127]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -46.0
+offset_top = -11.5
+offset_right = 46.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER"
+
+[node name="LifeContainer" type="HBoxContainer" parent="UI" unique_id=1327857375]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+script = ExtResource("14_uv1xp")
