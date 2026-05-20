@@ -21,6 +21,7 @@ size = Vector2(128, 128)
 collision_layer = 16
 collision_mask = 3
 script = ExtResource("1_neq0i")
+max_hp = 100
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=20045618]
 sprite_frames = SubResource("SpriteFrames_skx2t")

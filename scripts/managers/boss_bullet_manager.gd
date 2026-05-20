@@ -25,8 +25,9 @@ func fire_pattern1_radial(pos:Vector2,adjust:float):
 		
 		if bullet:
 			#방향 계산 (i번째 각도 구하기)
-			var current_angle = i * angle_step+adjust
-			# from_angle은 해당 각도로 크기가 1인 방향 벡터를 만들어줘
+			var current_angle
+			current_angle = i * angle_step+adjust
+			# from_angle은 해당 각도로 크기가 1인 방향 벡터를 만듦
 			var dir = Vector2.from_angle(current_angle)
 			#활성화 함수 호출
 			bullet.activate(pos,dir)
