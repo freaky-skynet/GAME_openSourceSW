@@ -1,6 +1,9 @@
 extends CharacterBody2D
 @export var is_invincible: bool = false
 @export var speed: float = 400.0 #이동 속도
+@export var player_half=16.0
+
+
 @onready var player_bullet_manager=%PlayerBulletManager
 @onready var shoot_timer=$ShootTimer
 @onready var player_dash = $PlayerDash
@@ -32,6 +35,12 @@ func _physics_process(_delta):
 	#이동 및 충돌 처리
 	move_and_slide()
 	
+	#플레이어 화면안에 가두기
+	var screen_size = get_viewport_rect().size
+	# 화면 크기 - 플레이어 절반 크기로 경계선 제한
+	position.x = clamp(position.x, player_half, screen_size.x - player_half)
+	position.y = clamp(position.y, player_half, screen_size.y - player_half)
+	
 func _process(_delta):
 	# 'fire' 키를 누르기 시작할 때
 	if Input.is_action_just_pressed("fire"):
@@ -40,14 +49,13 @@ func _process(_delta):
 	# 'fire' 키를 뗐을 때
 	if Input.is_action_just_released("fire"):
 		stop_shooting()
+		player_bullet_manager.stop_laser()
 
 func start_shooting():
 	shoot_timer.start()
 
 func stop_shooting():
 	shoot_timer.stop()
-	if GlobalGameEvents.combo_level==3:
-		player_bullet_manager.stop_laser()
 
 # 타이머의 'timeout' 시그널을 연결
 func _on_shoot_timer_timeout():

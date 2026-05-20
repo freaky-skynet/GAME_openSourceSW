@@ -74,8 +74,8 @@ func bullet_activate(pos: Vector2, dir: Vector2) -> void:
 	set_process(true)
 	set_physics_process(true)
 
-	monitoring = true
-	monitorable = true
+	set_deferred("monitoring", true)
+	set_deferred("monitorable", true)
 
 
 func deactivate() -> void:
