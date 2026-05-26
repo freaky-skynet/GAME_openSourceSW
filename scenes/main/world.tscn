@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://yx3vex85r052"]
 
 [ext_resource type="Script" uid="uid://gnmxsp6re104" path="res://scripts/background/scrolling_background.gd" id="1_2p2jg"]
-[ext_resource type="Texture2D" uid="uid://7stv1167tm41" path="res://assets/images/background/background_temp.jpg" id="2_r1or7"]
+[ext_resource type="Texture2D" uid="uid://cm7rwsl7w8b8s" path="res://assets/images/background/background_star.jpg" id="2_2p2jg"]
 [ext_resource type="PackedScene" uid="uid://b62tm8kkr02e8" path="res://scenes/player/player.tscn" id="3_0w3ym"]
+[ext_resource type="Script" uid="uid://bmqurch4avdba" path="res://scenes/main/planet_layer.gd" id="3_shf8f"]
 [ext_resource type="Script" uid="uid://dte7o7thdwyv4" path="res://scripts/player/player_dash.gd" id="4_ailbm"]
+[ext_resource type="Texture2D" uid="uid://2gha6wploj4k" path="res://assets/images/background/planet/mars.png" id="4_pasgk"]
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://scenes/boss/boss.tscn" id="5_3wopa"]
+[ext_resource type="Texture2D" uid="uid://5lydgehxouap" path="res://assets/images/background/planet/jupiter.png" id="5_moqhu"]
 [ext_resource type="PackedScene" uid="uid://dapetvp7r0k4m" path="res://scenes/managers/player_bullet_manager.tscn" id="6_bolsh"]
+[ext_resource type="Texture2D" uid="uid://crt2xqf58yjb7" path="res://assets/images/background/planet/saturn.png" id="6_fvaq5"]
 [ext_resource type="PackedScene" uid="uid://s3dfv18bdqsl" path="res://scenes/managers/boss_bullet_manager.tscn" id="7_shf8f"]
+[ext_resource type="Texture2D" uid="uid://c80ihet3qwa4d" path="res://assets/images/background/planet/uranus.png" id="7_snr5s"]
+[ext_resource type="Texture2D" uid="uid://brqexn1da50bg" path="res://assets/images/background/planet/neptune.png" id="8_2hobn"]
 [ext_resource type="PackedScene" uid="uid://c3dr625gnv3pa" path="res://scenes/managers/combo_manager.tscn" id="8_pasgk"]
 [ext_resource type="PackedScene" uid="uid://cr7bs5htpbagg" path="res://scenes/player/player_laser.tscn" id="9_moqhu"]
 [ext_resource type="AudioStream" uid="uid://bskcr5dneve4p" path="res://assets/audio/bgm/ParyTalk.mp3" id="10_fvaq5"]
@@ -18,13 +24,21 @@
 [node name="World" type="Node2D" unique_id=41328882]
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1986742591]
-repeat_size = Vector2(480, 640)
+repeat_size = Vector2(320, 640)
 repeat_times = 3
 script = ExtResource("1_2p2jg")
 scroll_speed = Vector2(10, 30)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=754733410]
-texture = ExtResource("2_r1or7")
+texture = ExtResource("2_2p2jg")
+
+[node name="PlanetLayer" type="Node2D" parent="." unique_id=588438111]
+script = ExtResource("3_shf8f")
+mars_texture = ExtResource("4_pasgk")
+jupiter_texture = ExtResource("5_moqhu")
+saturn_texture = ExtResource("6_fvaq5")
+uranus_texture = ExtResource("7_snr5s")
+neptune_texture = ExtResource("8_2hobn")
 
 [node name="ObjectLayer" type="Node2D" parent="." unique_id=1450698538]
 
