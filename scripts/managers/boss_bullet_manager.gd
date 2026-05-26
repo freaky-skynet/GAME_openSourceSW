@@ -79,6 +79,28 @@ func fire_p2_cross_spread(pos: Vector2, adjust: float):
 				var dir = Vector2.from_angle(angle)
 				bullet.activate(pos, dir, 450.0)
 
+func fire_p3_circle_spread(pos: Vector2, adjust: float):
+	var bullet_count = 36 
+	var angle_step = TAU / bullet_count
+	
+	for i in range(bullet_count):
+		var bullet = _get_inactive_bullet()
+		if bullet:
+			var angle = i * angle_step + adjust
+			var dir = Vector2.from_angle(angle)
+			
+			# 탄알 속도 450
+			bullet.activate(pos, dir, 450.0)
+
+func fire_p3_aimed_single(pos: Vector2, target_pos: Vector2):
+	var bullet = _get_inactive_bullet() # 총알 한 개만 꺼내기
+	
+	if bullet:
+		# 그냥 플레이어를 향한 직행 각도
+		var angle = (target_pos - pos).angle() 
+		var dir = Vector2.from_angle(angle)
+		# 탄알 속도
+		bullet.activate(pos, dir, 500.0)
 
 # object "pull"ing from pool
 func _get_inactive_bullet():

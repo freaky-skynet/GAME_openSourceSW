@@ -74,7 +74,6 @@ texture = ExtResource("2_r1or7")
 
 [node name="Player" parent="ObjectLayer" unique_id=1361347147 instance=ExtResource("3_0w3ym")]
 position = Vector2(256, 568)
-is_invincible = false
 
 [node name="PlayerDash" type="Node" parent="ObjectLayer/Player" unique_id=1292072977]
 script = ExtResource("4_ailbm")
