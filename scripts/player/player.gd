@@ -75,18 +75,13 @@ func take_damage(amount: int):
 	current_hp -= amount
 	current_hp = max(0, current_hp)
 	
-	GlobalGameEvents.current_player_hp = current_hp
-	
 	print("현재 피: ", current_hp)
 	GlobalGameEvents.hp_changed.emit(current_hp)
 	
 	if current_hp <= 0:
 		die()
 
-func _ready():
-	GlobalGameEvents.current_player_hp = current_hp
-	GlobalGameEvents.hp_changed.emit(current_hp)
-	
+
 func die():
 	print("사망")
 	GlobalGameEvents.game_over.emit()
