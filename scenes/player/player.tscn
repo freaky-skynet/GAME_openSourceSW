@@ -1,16 +1,16 @@
 [gd_scene format=3 uid="uid://b62tm8kkr02e8"]
 
-[ext_resource type="Texture2D" uid="uid://c7e4qxwmnn8mm" path="res://assets/images/player/samplePlayer.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://c4bmtlt4au8bo" path="res://scripts/player/player.gd" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://bma8fgee2p7c" path="res://assets/images/player/test3.png" id="2_dovo2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
 radius = 13.0
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_i3pqv"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_gmlin"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_4flbx")
+"texture": ExtResource("2_dovo2")
 }],
 "loop": true,
 "name": &"default",
@@ -27,7 +27,7 @@ is_invincible = true
 shape = SubResource("CapsuleShape2D_onrkg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1811005011]
-sprite_frames = SubResource("SpriteFrames_i3pqv")
+sprite_frames = SubResource("SpriteFrames_gmlin")
 
 [node name="ShootTimer" type="Timer" parent="." unique_id=364727572]
 wait_time = 0.2
