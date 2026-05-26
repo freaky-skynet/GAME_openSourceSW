@@ -43,6 +43,7 @@ one_shot = true
 
 [node name="Boss" parent="ObjectLayer" unique_id=574752634 instance=ExtResource("5_3wopa")]
 position = Vector2(256, 168)
+pattern_time = 3.5
 
 [node name="PlayerBulletManager" parent="." unique_id=1369619833 instance=ExtResource("6_bolsh")]
 unique_name_in_owner = true

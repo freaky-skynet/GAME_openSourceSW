@@ -15,7 +15,6 @@ func _physics_process(_delta):
 	# 1. 입력 벡터 가져오기 (상하좌우 키 설정을 한 번에 처리)
 	# "left", "right", "up", "down"은 Input Map에서 설정한 이름
 	var direction = Input.get_vector("left", "right", "up", "down")
-	
 	# dash
 	player_dash.update_last_direction(direction)
 	if Input.is_action_just_pressed("dash"):
@@ -68,7 +67,7 @@ func shoot():
 
 
 func take_damage(amount: int):
-	# 무적 체크박스가 켜져 있다면, 아래 코드를 무시하고 함수를 나갑니다.
+	# 무적 체크박스가 켜져 있다면, 아래 코드를 무시하고 함수를 나감.
 	if is_invincible:
 		return 
 

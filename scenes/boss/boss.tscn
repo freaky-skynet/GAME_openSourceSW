@@ -26,11 +26,15 @@ max_hp = 100
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=20045618]
 sprite_frames = SubResource("SpriteFrames_skx2t")
 
-[node name="Timer" type="Timer" parent="." unique_id=1165638491]
+[node name="FireTimer" type="Timer" parent="." unique_id=1165638491]
 wait_time = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=285048296]
 shape = SubResource("RectangleShape2D_6xxrv")
 
+[node name="PatternTimer" type="Timer" parent="." unique_id=970885040]
+wait_time = 3.0
+autostart = true
+
 [connection signal="ready" from="." to="." method="_on_ready"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="FireTimer" to="." method="_on_timer_timeout"]
