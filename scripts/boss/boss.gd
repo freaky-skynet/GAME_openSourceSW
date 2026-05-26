@@ -122,6 +122,7 @@ func take_damage(amount: int) -> void:
 
 	print("보스 현재 체력: ", current_hp, "/", max_hp)
 
+	# 체력이 변할 때마다 UI에 전달
 	GlobalGameEvents.boss_hp_changed.emit(current_hp, max_hp)
 
 	_flash_hit()
@@ -148,6 +149,7 @@ func die() -> void:
 
 	is_dead = true
 
+	
 	GlobalGameEvents.request_score_change.emit(clear_score)
 	GlobalGameEvents.game_clear.emit()
 
