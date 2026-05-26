@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var player_bullet_manager=%PlayerBulletManager
 @onready var shoot_timer=$ShootTimer
 @onready var player_dash = $PlayerDash
+@onready var player_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var max_hp: int = 3
 var current_hp: int = 3
@@ -15,7 +16,7 @@ func _physics_process(_delta):
 	# 1. 입력 벡터 가져오기 (상하좌우 키 설정을 한 번에 처리)
 	# "left", "right", "up", "down"은 Input Map에서 설정한 이름
 	var direction = Input.get_vector("left", "right", "up", "down")
-	
+	_update_player_sprite(direction)
 	# dash
 	player_dash.update_last_direction(direction)
 	if Input.is_action_just_pressed("dash"):
@@ -40,7 +41,16 @@ func _physics_process(_delta):
 	# 화면 크기 - 플레이어 절반 크기로 경계선 제한
 	position.x = clamp(position.x, player_half, screen_size.x - player_half)
 	position.y = clamp(position.y, player_half, screen_size.y - player_half)
-	
+
+func _update_player_sprite(direction: Vector2) -> void:
+	if direction.x < -0.1:
+		player_sprite.play("left")
+	elif direction.x > 0.1:
+		player_sprite.play("right")
+	else:
+		player_sprite.play("default")
+
+
 func _process(_delta):
 	# 'fire' 키를 누르기 시작할 때
 	if Input.is_action_just_pressed("fire"):
@@ -75,13 +85,18 @@ func take_damage(amount: int):
 	current_hp -= amount
 	current_hp = max(0, current_hp)
 	
+	GlobalGameEvents.current_player_hp = current_hp
+	
 	print("현재 피: ", current_hp)
 	GlobalGameEvents.hp_changed.emit(current_hp)
 	
 	if current_hp <= 0:
 		die()
 
-
+func _ready():
+	GlobalGameEvents.current_player_hp = current_hp
+	GlobalGameEvents.hp_changed.emit(current_hp)
+	
 func die():
 	print("사망")
 	GlobalGameEvents.game_over.emit()
