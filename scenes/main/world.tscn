@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://yx3vex85r052"]
 
 [ext_resource type="Script" uid="uid://gnmxsp6re104" path="res://scripts/background/scrolling_background.gd" id="1_2p2jg"]
+[ext_resource type="Script" uid="uid://d2jvysdykiehr" path="res://scripts/background/world.gd" id="1_pasgk"]
 [ext_resource type="Texture2D" uid="uid://cm7rwsl7w8b8s" path="res://assets/images/background/background_star.jpg" id="2_2p2jg"]
 [ext_resource type="PackedScene" uid="uid://b62tm8kkr02e8" path="res://scenes/player/player.tscn" id="3_0w3ym"]
-[ext_resource type="Script" uid="uid://bmqurch4avdba" path="res://scenes/main/planet_layer.gd" id="3_shf8f"]
+[ext_resource type="Script" uid="uid://bmqurch4avdba" path="res://scripts/background/planet_layer.gd" id="3_shf8f"]
 [ext_resource type="Script" uid="uid://dte7o7thdwyv4" path="res://scripts/player/player_dash.gd" id="4_ailbm"]
 [ext_resource type="Texture2D" uid="uid://2gha6wploj4k" path="res://assets/images/background/planet/mars.png" id="4_pasgk"]
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://scenes/boss/boss.tscn" id="5_3wopa"]
@@ -22,6 +23,7 @@
 [ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://scripts/ui/life_container.gd" id="14_uv1xp"]
 
 [node name="World" type="Node2D" unique_id=41328882]
+script = ExtResource("1_pasgk")
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1986742591]
 repeat_size = Vector2(320, 640)
@@ -44,7 +46,6 @@ neptune_texture = ExtResource("8_2hobn")
 
 [node name="Player" parent="ObjectLayer" unique_id=1361347147 instance=ExtResource("3_0w3ym")]
 position = Vector2(256, 568)
-is_invincible = false
 
 [node name="PlayerDash" type="Node" parent="ObjectLayer/Player" unique_id=1292072977]
 script = ExtResource("4_ailbm")
@@ -60,7 +61,7 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[node name="Boss" parent="ObjectLayer" unique_id=574752634 instance=ExtResource("5_3wopa")]
+[node name="Boss" parent="ObjectLayer" unique_id=574752634 groups=["boss"] instance=ExtResource("5_3wopa")]
 position = Vector2(256, 168)
 
 [node name="PlayerBulletManager" parent="." unique_id=1369619833 instance=ExtResource("6_bolsh")]

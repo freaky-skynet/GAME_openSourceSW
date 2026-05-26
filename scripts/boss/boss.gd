@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal phase_changed(new_phase: int)
+
 @export var max_hp: int = 1000
 @export var hit_flash_time: float = 0.08
 @export var clear_score: int = 3000 #클리어시 추가되는 점수
@@ -41,12 +43,18 @@ func _process(float)->void:
 	
 func phase_manager(current_hp:int,max_hp:int)->void:
 	#print(phase_point1," ",phase_point2," ",current_hp)
+	var before_phase: int = current_phase
+	
 	if (phase_point2 <= current_hp && current_hp <= phase_point1):
 		current_phase=2
 		print("PHASE2")
 	elif (current_hp < phase_point2):
 		current_phase=3
 		print("PHASE3")
+		
+	if before_phase != current_phase:
+		print("PHASE", current_phase)
+		phase_changed.emit(current_phase)
 	
 func boss_attack():
 	while(!is_dead):#죽지 않았다면 반복

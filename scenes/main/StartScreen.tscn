@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bujovg54j7ut"]
+
+[ext_resource type="Script" uid="uid://mpqterksmsqj" path="res://scripts/ui/start_screen.gd" id="1_j5nue"]
+
+[node name="StartScreen" type="Control" unique_id=1842547362]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_j5nue")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=719549974]
+layout_mode = 0
+offset_right = 482.0
+offset_bottom = 635.0
+color = Color(0.7308749, 0.7693242, 0.85376847, 1)
+
+[node name="StartButton" type="Button" parent="." unique_id=138480657]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 226.0
+offset_right = 381.0
+offset_bottom = 412.0
+text = "START"
+
+[node name="TitleLabel" type="Label" parent="." unique_id=918983706]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 135.0
+offset_right = 311.0
+offset_bottom = 172.0
+text = "~~탄막슈팅게임~~
+press start button"
