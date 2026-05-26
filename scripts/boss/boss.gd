@@ -3,7 +3,8 @@ extends CharacterBody2D
 @export var max_hp: int = 1000
 @export var hit_flash_time: float = 0.08
 @export var clear_score: int = 3000 #클리어시 추가되는 점수
-@export var pattern_time:float = 4.0#한 패턴의 지속시간
+@export var pattern_time:float = 3.0 #한 패턴의 지속시간
+@export var pattern_rest_time: float = 0.5 #1.0 # 0.5 #패턴 사이사이 쉬는 시간 
 @export var fire_time:float = 0.1
 
 @onready var boss_bullet_manager = %BossBulletManager
@@ -63,28 +64,46 @@ func boss_attack():
 		await get_tree().create_timer(pattern_time).timeout
 		pattern_flag=false;
 		
+		# 잠깐 쉬는 시간 추가
+		await get_tree().create_timer(pattern_rest_time).timeout
 
 func phase1_pattern_fire():
 	pattern_num=randi_range(1,3)
 	while(pattern_flag):
 		fire_timer.start()
 		await fire_timer.timeout
+		
+		if not pattern_flag or current_phase != 1: break
+		#페이즈 넘어가야 하는 경우 강제종료
+		
 		match pattern_num:
 			1:
 				p1_pattern1()
 			_:
 				#print(pattern_num," patternchanged")
 				p1_pattern1()
+
+# 2페이즈
 func phase2_pattern_fire():
-	pattern_num=randi_range(1,3)
-	while(pattern_flag):
+	pattern_num = randi_range(1, 3)
+	
+	while pattern_flag and current_phase == 2:
+		
 		fire_timer.start()
 		await fire_timer.timeout
+		
+		if not pattern_flag or current_phase != 2: break
+		#페이즈 넘어가야 하는 경우 강제종료
+
 		match pattern_num:
 			1:
-				p1_pattern1()
-			_:
-				p1_pattern1()
+				p2_pattern1()
+			2:
+				p2_pattern2()
+			3:
+				p2_pattern3()
+
+
 func phase3_pattern_fire():
 	pattern_num=randi_range(1,3)
 	while(pattern_flag):
@@ -108,6 +127,39 @@ func p1_pattern1() -> void:
 		variFlag=true
 	if variation > 3.0:
 		variFlag=false
+
+# 랜덤으로 3개 패턴 중 하나를 골라서 실행
+func p2_pattern1() -> void:
+	if is_dead:
+		return
+
+	print("phase2 pattern1")
+	boss_bullet_manager.fire_p2_rotating_radial(pos, variation)
+	variation += 0.25
+
+
+func p2_pattern2() -> void:
+	if is_dead:
+		return
+
+	# print("player group nodes: ", get_tree().get_nodes_in_group("player"))
+	var player = get_tree().get_first_node_in_group("player")
+
+	if player:
+		boss_bullet_manager.fire_p2_aimed_spread(pos, player.global_position)
+		print("phase2 pattern2 player confirmed")
+	else:
+		boss_bullet_manager.fire_p2_rotating_radial(pos, variation)
+
+
+func p2_pattern3() -> void:
+	if is_dead:
+		return
+		
+	print("phase2 pattern3")
+
+	boss_bullet_manager.fire_p2_cross_spread(pos, variation)
+	variation += 0.35
 
 
 func take_damage(amount: int) -> void:

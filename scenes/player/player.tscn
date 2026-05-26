@@ -35,7 +35,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D" unique_id=518452283]
+[node name="Player" type="CharacterBody2D" unique_id=518452283 groups=["player"]]
 z_index = 5
 collision_mask = 16
 script = ExtResource("1_onrkg")

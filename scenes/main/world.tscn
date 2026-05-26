@@ -30,6 +30,7 @@ texture = ExtResource("2_r1or7")
 
 [node name="Player" parent="ObjectLayer" unique_id=1361347147 instance=ExtResource("3_0w3ym")]
 position = Vector2(256, 568)
+is_invincible = false
 
 [node name="PlayerDash" type="Node" parent="ObjectLayer/Player" unique_id=1292072977]
 script = ExtResource("4_ailbm")
@@ -39,6 +40,10 @@ wait_time = 0.15
 one_shot = true
 
 [node name="DashCooldownTimer" type="Timer" parent="ObjectLayer/Player" unique_id=1903489169]
+one_shot = true
+
+[node name="DashInvincibleTimer" type="Timer" parent="ObjectLayer/Player" unique_id=1406134569]
+wait_time = 0.5
 one_shot = true
 
 [node name="Boss" parent="ObjectLayer" unique_id=574752634 instance=ExtResource("5_3wopa")]
