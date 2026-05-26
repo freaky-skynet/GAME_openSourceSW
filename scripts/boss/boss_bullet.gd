@@ -1,11 +1,14 @@
 extends Area2D
 
 @export var speed: float = 500.0
+var default_speed: float = 500.0
+
 @export var boss_scene: PackedScene
 var direction: Vector2 = Vector2.ZERO
 var is_active: bool = false
 
 func _ready():
+	default_speed = speed
 	# 처음에 생성될 때는 비활성화 상태로 시작
 	deactivate()
 
@@ -28,10 +31,15 @@ func _on_body_entered(body: Node2D) -> void:
 		body.take_damage(1)
 	deactivate()
 
+
 # 탄환을 다시 사용할 때 호출
-func activate(pos: Vector2, dir: Vector2):
+func activate(pos: Vector2, dir: Vector2, new_speed: float = -1.0):
 	position = pos
 	direction = dir.normalized()
+	
+	if new_speed > 0.0: speed = new_speed
+	else: speed = default_speed
+	
 	is_active = true
 	show()
 	# 물리 충돌과 프로세스를 다시 
@@ -43,6 +51,7 @@ func activate(pos: Vector2, dir: Vector2):
 # 탄환 비활성화 함수
 func deactivate():
 	is_active = false
+	speed = default_speed
 	hide()
 	# 성능 최적화(연산 제거)
 	set_process(false)
