@@ -45,7 +45,8 @@ func _on_body_entered(body: Node) -> void:
 	if body.has_method("take_damage"):
 		body.take_damage(damage)
 		GlobalGameEvents.player_hit_enemy.emit(damage)
-
+		GlobalGameEvents.request_score_change.emit(100) #테스트로 추
+		
 		if GlobalGameEvents.combo_level >= 2:
 			GlobalGameEvents.request_score_change.emit(500)
 

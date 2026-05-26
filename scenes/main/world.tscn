@@ -15,6 +15,50 @@
 [ext_resource type="Script" uid="uid://wylvek0afbv3" path="res://scripts/ui/score_label.gd" id="13_kt1us"]
 [ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://scripts/ui/life_container.gd" id="14_uv1xp"]
 
+[sub_resource type="GDScript" id="GDScript_2p2jg"]
+script/source = "extends CanvasLayer
+
+@onready var game_over_screen: Control = $GameOverScreen
+@onready var result_screen: Control = $ResultScreen
+
+@onready var score_label: Label = $ResultScreen/ScoreLabel
+@onready var time_label: Label = $ResultScreen/TimeLabel
+@onready var restart_button: Button = $ResultScreen/RestartButton
+
+func _ready() -> void:
+	hide()
+	restart_button.pressed.connect(_on_restart_pressed)
+
+# UIManager가 점수와 시간을 들고 호출해 주는 메인 함수
+func setup_game_over(score: int, time_value: float) -> void:
+	score_label.text = \"Score: \" + str(score)
+	var minutes = int(time_value) / 60
+	var seconds = int(time_value) % 60
+	time_label.text = \"Time: %02d:%02d\" % [minutes, seconds]
+	
+	#  게임 오버 켜기
+	result_screen.hide()
+	game_over_screen.show() 
+	
+	show() 
+	get_tree().paused = true # 게임 일시정지
+	
+	# 2초 대기 후 결과창 보여주기
+	await get_tree().create_timer(2.0).timeout
+	
+	# 결과창 켜기
+	game_over_screen.hide()
+	result_screen.show()
+
+# 🔄 [다시 시작] 버튼을 누르면 실행되는 함수!
+func _on_restart_pressed() -> void:
+	# 새로 읽어오기 전에 일시 정지를 해제
+	get_tree().paused = false
+	
+	# 현재씬 다시 로드
+	get_tree().reload_current_scene()
+"
+
 [node name="World" type="Node2D" unique_id=41328882]
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1986742591]
@@ -30,7 +74,6 @@ texture = ExtResource("2_r1or7")
 
 [node name="Player" parent="ObjectLayer" unique_id=1361347147 instance=ExtResource("3_0w3ym")]
 position = Vector2(256, 568)
-is_invincible = false
 
 [node name="PlayerDash" type="Node" parent="ObjectLayer/Player" unique_id=1292072977]
 script = ExtResource("4_ailbm")
@@ -88,35 +131,88 @@ offset_bottom = 28.0
 script = ExtResource("13_kt1us")
 
 [node name="GameOverLayer" type="CanvasLayer" parent="UI/UIManager" unique_id=948347534]
+process_mode = 3
+script = SubResource("GDScript_2p2jg")
 
-[node name="ColorRect" type="ColorRect" parent="UI/UIManager/GameOverLayer" unique_id=356899749]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -65.0
-offset_top = -40.0
-offset_right = 65.0
+[node name="GameOverScreen" type="Control" parent="UI/UIManager/GameOverLayer" unique_id=1233097524]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/UIManager/GameOverLayer/GameOverScreen" unique_id=356899749]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.475
+anchor_top = 0.525
+anchor_right = 0.475
+anchor_bottom = 0.525
+offset_left = 160.0
+offset_top = 262.0
+offset_right = 290.0
+offset_bottom = 342.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="UI/UIManager/GameOverLayer" unique_id=1052648127]
+[node name="Label" type="Label" parent="UI/UIManager/GameOverLayer/GameOverScreen" unique_id=1052648127]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -46.0
-offset_top = -11.5
-offset_right = 46.0
-offset_bottom = 11.5
+offset_left = 174.0
+offset_top = 288.5
+offset_right = 266.0
+offset_bottom = 311.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "GAME OVER"
+
+[node name="ResultScreen" type="Control" parent="UI/UIManager/GameOverLayer" unique_id=310253650]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/UIManager/GameOverLayer/ResultScreen" unique_id=1655939543]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 30.0
+offset_top = 39.0
+offset_right = 403.0
+offset_bottom = 573.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScoreLabel" type="Label" parent="UI/UIManager/GameOverLayer/ResultScreen" unique_id=626484390]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 131.0
+offset_right = 385.0
+offset_bottom = 154.0
+
+[node name="TimeLabel" type="Label" parent="UI/UIManager/GameOverLayer/ResultScreen" unique_id=383152679]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 158.0
+offset_right = 385.0
+offset_bottom = 181.0
+
+[node name="RestartButton" type="Button" parent="UI/UIManager/GameOverLayer/ResultScreen" unique_id=2145253791]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 388.0
+offset_right = 389.0
+offset_bottom = 468.0
+text = "restart"
 
 [node name="LifeContainer" type="HBoxContainer" parent="UI" unique_id=1327857375]
 anchors_preset = 1

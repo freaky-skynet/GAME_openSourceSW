@@ -11,6 +11,7 @@ extends CharacterBody2D
 @onready var fire_timer: Timer = $Timer#총알 발사간격
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+
 var current_hp: int = 100
 var current_phase=1
 var phase_point1:int=0
@@ -25,6 +26,7 @@ var variFlag:bool=false#인수값 조절용 플래그
 
 var is_dead: bool = false
 
+var is_p3_aiming: bool = false#3페이즈 기관총
 
 func _on_ready() -> void:
 	current_hp = max_hp
@@ -103,17 +105,25 @@ func phase2_pattern_fire():
 			3:
 				p2_pattern3()
 
-
+#3페이즈
 func phase3_pattern_fire():
-	pattern_num=randi_range(1,3)
-	while(pattern_flag):
-		fire_timer.start()
-		await fire_timer.timeout
-		match pattern_num:
-			1:
-				p1_pattern1()
-			_:
-				p1_pattern1()
+	# 전방위 사격
+	boss_bullet_manager.fire_p3_circle_spread(pos, variation)
+	variation += 0.1 
+	
+	# 기관총
+	if not is_p3_aiming:
+		is_p3_aiming = true # 기관총 가동
+		
+		
+		while current_phase == 3 and not is_dead:
+			# 기존 타이머 대신, 여기서 직접 0.1초 간격으로 쏘게 만듭니다.
+			await get_tree().create_timer(0.1).timeout 
+			
+			var player = get_tree().get_first_node_in_group("player")
+			if player:
+				boss_bullet_manager.fire_p3_aimed_single(pos, player.global_position)
+
 
 func p1_pattern1() -> void:
 	if is_dead:
@@ -159,6 +169,15 @@ func p2_pattern3() -> void:
 	print("phase2 pattern3")
 
 	boss_bullet_manager.fire_p2_cross_spread(pos, variation)
+	variation += 0.35
+
+func p3_pattern1() -> void:
+	if is_dead:
+		return
+		
+	print("phase3 pattern1")
+
+	boss_bullet_manager.fire_p3_circle_spread(pos, variation)
 	variation += 0.35
 
 
