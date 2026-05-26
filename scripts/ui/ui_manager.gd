@@ -2,32 +2,57 @@ extends Control
 
 var game_over_layer: CanvasLayer
 var game_clear_layer: CanvasLayer
+
 var boss_health_bar: ProgressBar
 
+var clear_score_label: Label
+var clear_hp_label: Label
+var exit_button: Button
 
-func _ready() -> void:
+
+func _ready():
 	game_over_layer = get_node_or_null("GameOverLayer") as CanvasLayer
 
 	if game_over_layer:
 		game_over_layer.hide()
 	else:
-		print("경고: GameOverLayer 노드를 찾을 수 없습니다! 경로를 확인하세요.")
+		print("경고: GameOverLayer 노드를 찾을 수 없습니다.")
 
+	# 보스 체력바 생성
 	_create_boss_health_bar()
+
+	# 클리어 화면 생성
 	_create_game_clear_layer()
 
+	# 전역 신호 연결
 	GlobalGameEvents.game_over.connect(_on_game_over)
 	GlobalGameEvents.game_clear.connect(_on_game_clear)
 	GlobalGameEvents.boss_hp_changed.connect(_on_boss_hp_changed)
 
 
+func _on_game_over():
+	if game_over_layer:
+		game_over_layer.show()
+
+
+func _on_game_clear():
+	if game_over_layer:
+		game_over_layer.hide()
+
+	if boss_health_bar:
+		boss_health_bar.hide()
+
+	clear_score_label.text = "SCORE : " + str(GlobalGameEvents.current_score)
+	clear_hp_label.text = "HP : " + str(GlobalGameEvents.current_player_hp)
+
+	game_clear_layer.show()
+
+	# 클리어 후 게임 멈춤
+	get_tree().paused = true
+
+
+# 보스 체력바 생성
 func _create_boss_health_bar() -> void:
-	var existing_bar := get_node_or_null("BossHealthBar") as ProgressBar
-
-	if existing_bar:
-		boss_health_bar = existing_bar
-		return
-
 	boss_health_bar = ProgressBar.new()
 	boss_health_bar.name = "BossHealthBar"
 
@@ -41,72 +66,13 @@ func _create_boss_health_bar() -> void:
 
 	add_child(boss_health_bar)
 
-
-func _create_game_clear_layer() -> void:
-	var existing_layer := get_node_or_null("GameClearLayer") as CanvasLayer
-
-	if existing_layer:
-		game_clear_layer = existing_layer
-		game_clear_layer.hide()
-		return
-
-	game_clear_layer = CanvasLayer.new()
-	game_clear_layer.name = "GameClearLayer"
-
-	add_child(game_clear_layer)
-
-	var background := ColorRect.new()
-	background.name = "ColorRect"
-	background.color = Color(0, 0, 0, 1)
-
-	background.anchor_left = 0.5
-	background.anchor_top = 0.5
-	background.anchor_right = 0.5
-	background.anchor_bottom = 0.5
-
-	background.offset_left = -75.0
-	background.offset_top = -40.0
-	background.offset_right = 75.0
-	background.offset_bottom = 40.0
-
-	game_clear_layer.add_child(background)
-
-	var label := Label.new()
-	label.name = "Label"
-	label.text = "GAME CLEAR"
-
-	label.anchor_left = 0.5
-	label.anchor_top = 0.5
-	label.anchor_right = 0.5
-	label.anchor_bottom = 0.5
-
-	label.offset_left = -55.0
-	label.offset_top = -12.0
-	label.offset_right = 55.0
-	label.offset_bottom = 12.0
-
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-
-	game_clear_layer.add_child(label)
-
-	game_clear_layer.hide()
+	print("보스 체력바 생성됨")
 
 
-func _on_game_over() -> void:
-	if game_over_layer:
-		game_over_layer.show()
-
-
-func _on_game_clear() -> void:
-	if game_over_layer:
-		game_over_layer.hide()
-
-	if game_clear_layer:
-		game_clear_layer.show()
-
-
+# 보스 체력바 갱신
 func _on_boss_hp_changed(current_hp: int, max_hp: int) -> void:
+	print("보스 체력바 갱신:", current_hp, "/", max_hp)
+
 	if not boss_health_bar:
 		return
 
@@ -117,3 +83,65 @@ func _on_boss_hp_changed(current_hp: int, max_hp: int) -> void:
 		boss_health_bar.hide()
 	else:
 		boss_health_bar.show()
+
+
+# 게임 클리어 화면 생성
+func _create_game_clear_layer() -> void:
+	game_clear_layer = CanvasLayer.new()
+	game_clear_layer.name = "GameClearLayer"
+	game_clear_layer.hide()
+
+	# 게임이 pause 되어도 버튼이 작동하도록 설정
+	game_clear_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+
+	add_child(game_clear_layer)
+
+	var background := ColorRect.new()
+	background.color = Color(0, 0, 0, 0.75)
+	background.set_anchors_preset(Control.PRESET_FULL_RECT)
+	background.process_mode = Node.PROCESS_MODE_ALWAYS
+	game_clear_layer.add_child(background)
+
+	var panel := ColorRect.new()
+	panel.color = Color(0.05, 0.05, 0.05, 1.0)
+	panel.position = Vector2(140, 220)
+	panel.size = Vector2(200, 180)
+	panel.process_mode = Node.PROCESS_MODE_ALWAYS
+	game_clear_layer.add_child(panel)
+
+	var title_label := Label.new()
+	title_label.text = "GAME CLEAR"
+	title_label.position = Vector2(45, 20)
+	title_label.size = Vector2(110, 30)
+	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	panel.add_child(title_label)
+
+	clear_score_label = Label.new()
+	clear_score_label.text = "SCORE : 0"
+	clear_score_label.position = Vector2(40, 65)
+	clear_score_label.size = Vector2(120, 25)
+	clear_score_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	clear_score_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	panel.add_child(clear_score_label)
+
+	clear_hp_label = Label.new()
+	clear_hp_label.text = "HP : 0"
+	clear_hp_label.position = Vector2(40, 95)
+	clear_hp_label.size = Vector2(120, 25)
+	clear_hp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	clear_hp_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	panel.add_child(clear_hp_label)
+
+	exit_button = Button.new()
+	exit_button.text = "EXIT"
+	exit_button.position = Vector2(60, 130)
+	exit_button.size = Vector2(80, 30)
+	exit_button.process_mode = Node.PROCESS_MODE_ALWAYS
+	exit_button.pressed.connect(_on_exit_pressed)
+	panel.add_child(exit_button)
+
+
+func _on_exit_pressed():
+	get_tree().paused = false
+	get_tree().quit()
