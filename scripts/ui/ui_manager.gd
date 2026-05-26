@@ -4,6 +4,8 @@ var game_over_layer: CanvasLayer
 var game_clear_layer: CanvasLayer
 var boss_health_bar: ProgressBar
 
+var game_time: float = 0.0
+var is_game_active: bool = true
 
 func _ready() -> void:
 	game_over_layer = get_node_or_null("GameOverLayer") as CanvasLayer
@@ -20,6 +22,9 @@ func _ready() -> void:
 	GlobalGameEvents.game_clear.connect(_on_game_clear)
 	GlobalGameEvents.boss_hp_changed.connect(_on_boss_hp_changed)
 
+func _process(delta: float) -> void:
+	if is_game_active:
+		game_time += delta
 
 func _create_boss_health_bar() -> void:
 	var existing_bar := get_node_or_null("BossHealthBar") as ProgressBar
@@ -93,9 +98,23 @@ func _create_game_clear_layer() -> void:
 	game_clear_layer.hide()
 
 
-func _on_game_over() -> void:
+func _on_game_over(score: int = -1, time_value: float = -1.0) -> void:
+	is_game_active = false # 시간 측정 중지
+	
+	#시간기록
+	var final_score = 0
+	var score_manager = get_node_or_null("../ScoreManager")
+	if score_manager:
+		final_score = score_manager.total_score # ScoreManager에서 받아오기
+		
+	var final_time = game_time
+
+	#시간,점수 결과창에 전송
 	if game_over_layer:
-		game_over_layer.show()
+		if game_over_layer.has_method("setup_game_over"):
+			game_over_layer.setup_game_over(final_score, final_time)
+		else:
+			game_over_layer.show()
 
 
 func _on_game_clear() -> void:
