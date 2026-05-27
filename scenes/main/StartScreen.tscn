@@ -15,10 +15,10 @@ color = Color(0.7308749, 0.7693242, 0.85376847, 1)
 
 [node name="StartButton" type="Button" parent="." unique_id=138480657]
 layout_mode = 0
-offset_left = 102.0
-offset_top = 226.0
-offset_right = 381.0
-offset_bottom = 412.0
+offset_left = 109.0
+offset_top = 474.0
+offset_right = 388.0
+offset_bottom = 523.0
 text = "START"
 
 [node name="TitleLabel" type="Label" parent="." unique_id=918983706]
@@ -29,3 +29,10 @@ offset_right = 311.0
 offset_bottom = 172.0
 text = "~~탄막슈팅게임~~
 press start button"
+
+[node name="StartRankingLabel" type="Label" parent="." unique_id=346540553]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 226.0
+offset_right = 393.0
+offset_bottom = 427.0
