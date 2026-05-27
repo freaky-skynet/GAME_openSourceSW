@@ -78,7 +78,7 @@ func shoot():
 
 
 func take_damage(amount: int):
-	# 무적 체크박스가 켜져 있다면, 아래 코드를 무시하고 함수를 나갑니다.
+	# 무적 체크박스가 켜져 있다면, 아래 코드를 무시하고 함수를 나감.
 	if is_invincible:
 		return 
 

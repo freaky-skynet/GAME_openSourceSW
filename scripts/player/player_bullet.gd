@@ -96,7 +96,7 @@ func _get_damage_by_combo_level() -> int:
 		1:
 			return 1
 		2:
-			return 5
+			return 2
 		_:
 			return 5
 

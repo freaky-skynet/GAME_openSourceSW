@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://c74s1l2cse475" path="res://assets/images/player/goingleft.png" id="3_lvxji"]
 [ext_resource type="Texture2D" uid="uid://d2shueh2wgufv" path="res://assets/images/player/goingright.png" id="4_p47bc"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onrkg"]
-radius = 13.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_lvxji"]
+radius = 2.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gmlin"]
 animations = [{
@@ -42,11 +42,12 @@ script = ExtResource("1_onrkg")
 is_invincible = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=541012137]
-shape = SubResource("CapsuleShape2D_onrkg")
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_lvxji")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1811005011]
 sprite_frames = SubResource("SpriteFrames_gmlin")
-animation = &"right"
+animation = &"left"
 
 [node name="ShootTimer" type="Timer" parent="." unique_id=364727572]
 wait_time = 0.2

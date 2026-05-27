@@ -17,6 +17,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not player:
 		return
+	if GlobalGameEvents.combo_level<3:
+		deactivate()
 
 	global_position = player.global_position
 
