@@ -1,12 +1,19 @@
 [gd_scene format=3 uid="uid://yx3vex85r052"]
 
 [ext_resource type="Script" uid="uid://gnmxsp6re104" path="res://scripts/background/scrolling_background.gd" id="1_2p2jg"]
-[ext_resource type="Texture2D" uid="uid://7stv1167tm41" path="res://assets/images/background/background_temp.jpg" id="2_r1or7"]
+[ext_resource type="Script" uid="uid://d2jvysdykiehr" path="res://scripts/background/world.gd" id="1_pasgk"]
+[ext_resource type="Texture2D" uid="uid://cm7rwsl7w8b8s" path="res://assets/images/background/background_star.jpg" id="2_2p2jg"]
 [ext_resource type="PackedScene" uid="uid://b62tm8kkr02e8" path="res://scenes/player/player.tscn" id="3_0w3ym"]
+[ext_resource type="Script" uid="uid://bmqurch4avdba" path="res://scripts/background/planet_layer.gd" id="3_shf8f"]
 [ext_resource type="Script" uid="uid://dte7o7thdwyv4" path="res://scripts/player/player_dash.gd" id="4_ailbm"]
+[ext_resource type="Texture2D" uid="uid://2gha6wploj4k" path="res://assets/images/background/planet/mars.png" id="4_pasgk"]
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://scenes/boss/boss.tscn" id="5_3wopa"]
+[ext_resource type="Texture2D" uid="uid://5lydgehxouap" path="res://assets/images/background/planet/jupiter.png" id="5_moqhu"]
 [ext_resource type="PackedScene" uid="uid://dapetvp7r0k4m" path="res://scenes/managers/player_bullet_manager.tscn" id="6_bolsh"]
+[ext_resource type="Texture2D" uid="uid://crt2xqf58yjb7" path="res://assets/images/background/planet/saturn.png" id="6_fvaq5"]
 [ext_resource type="PackedScene" uid="uid://s3dfv18bdqsl" path="res://scenes/managers/boss_bullet_manager.tscn" id="7_shf8f"]
+[ext_resource type="Texture2D" uid="uid://c80ihet3qwa4d" path="res://assets/images/background/planet/uranus.png" id="7_snr5s"]
+[ext_resource type="Texture2D" uid="uid://brqexn1da50bg" path="res://assets/images/background/planet/neptune.png" id="8_2hobn"]
 [ext_resource type="PackedScene" uid="uid://c3dr625gnv3pa" path="res://scenes/managers/combo_manager.tscn" id="8_pasgk"]
 [ext_resource type="PackedScene" uid="uid://cr7bs5htpbagg" path="res://scenes/player/player_laser.tscn" id="9_moqhu"]
 [ext_resource type="AudioStream" uid="uid://bskcr5dneve4p" path="res://assets/audio/bgm/ParyTalk.mp3" id="10_fvaq5"]
@@ -15,16 +22,69 @@
 [ext_resource type="Script" uid="uid://wylvek0afbv3" path="res://scripts/ui/score_label.gd" id="13_kt1us"]
 [ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://scripts/ui/life_container.gd" id="14_uv1xp"]
 
+[sub_resource type="GDScript" id="GDScript_2p2jg"]
+script/source = "extends CanvasLayer
+
+@onready var game_over_screen: Control = $GameOverScreen
+@onready var result_screen: Control = $ResultScreen
+
+@onready var score_label: Label = $ResultScreen/ScoreLabel
+@onready var time_label: Label = $ResultScreen/TimeLabel
+@onready var restart_button: Button = $ResultScreen/RestartButton
+
+func _ready() -> void:
+	hide()
+	restart_button.pressed.connect(_on_restart_pressed)
+
+# UIManager가 점수와 시간을 들고 호출해 주는 메인 함수
+func setup_game_over(score: int, time_value: float) -> void:
+	score_label.text = \"Score: \" + str(score)
+	var minutes = int(time_value) / 60
+	var seconds = int(time_value) % 60
+	time_label.text = \"Time: %02d:%02d\" % [minutes, seconds]
+	
+	#  게임 오버 켜기
+	result_screen.hide()
+	game_over_screen.show() 
+	
+	show() 
+	get_tree().paused = true # 게임 일시정지
+	
+	# 2초 대기 후 결과창 보여주기
+	await get_tree().create_timer(2.0).timeout
+	
+	# 결과창 켜기
+	game_over_screen.hide()
+	result_screen.show()
+
+# 🔄 [다시 시작] 버튼을 누르면 실행되는 함수!
+func _on_restart_pressed() -> void:
+	# 새로 읽어오기 전에 일시 정지를 해제
+	get_tree().paused = false
+	
+	# 현재씬 다시 로드
+	get_tree().reload_current_scene()
+"
+
 [node name="World" type="Node2D" unique_id=41328882]
+script = ExtResource("1_pasgk")
 
 [node name="Parallax2D" type="Parallax2D" parent="." unique_id=1986742591]
-repeat_size = Vector2(480, 640)
+repeat_size = Vector2(320, 640)
 repeat_times = 3
 script = ExtResource("1_2p2jg")
 scroll_speed = Vector2(10, 30)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D" unique_id=754733410]
-texture = ExtResource("2_r1or7")
+texture = ExtResource("2_2p2jg")
+
+[node name="PlanetLayer" type="Node2D" parent="." unique_id=588438111]
+script = ExtResource("3_shf8f")
+mars_texture = ExtResource("4_pasgk")
+jupiter_texture = ExtResource("5_moqhu")
+saturn_texture = ExtResource("6_fvaq5")
+uranus_texture = ExtResource("7_snr5s")
+neptune_texture = ExtResource("8_2hobn")
 
 [node name="ObjectLayer" type="Node2D" parent="." unique_id=1450698538]
 
@@ -41,7 +101,11 @@ one_shot = true
 [node name="DashCooldownTimer" type="Timer" parent="ObjectLayer/Player" unique_id=1903489169]
 one_shot = true
 
-[node name="Boss" parent="ObjectLayer" unique_id=574752634 instance=ExtResource("5_3wopa")]
+[node name="DashInvincibleTimer" type="Timer" parent="ObjectLayer/Player" unique_id=1406134569]
+wait_time = 0.5
+one_shot = true
+
+[node name="Boss" parent="ObjectLayer" unique_id=574752634 groups=["boss"] instance=ExtResource("5_3wopa")]
 position = Vector2(256, 168)
 pattern_time = 3.5
 
@@ -84,35 +148,88 @@ offset_bottom = 28.0
 script = ExtResource("13_kt1us")
 
 [node name="GameOverLayer" type="CanvasLayer" parent="UI/UIManager" unique_id=948347534]
+process_mode = 3
+script = SubResource("GDScript_2p2jg")
 
-[node name="ColorRect" type="ColorRect" parent="UI/UIManager/GameOverLayer" unique_id=356899749]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -65.0
-offset_top = -40.0
-offset_right = 65.0
+[node name="GameOverScreen" type="Control" parent="UI/UIManager/GameOverLayer" unique_id=1233097524]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/UIManager/GameOverLayer/GameOverScreen" unique_id=356899749]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.475
+anchor_top = 0.525
+anchor_right = 0.475
+anchor_bottom = 0.525
+offset_left = 160.0
+offset_top = 262.0
+offset_right = 290.0
+offset_bottom = 342.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="Label" parent="UI/UIManager/GameOverLayer" unique_id=1052648127]
+[node name="Label" type="Label" parent="UI/UIManager/GameOverLayer/GameOverScreen" unique_id=1052648127]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -46.0
-offset_top = -11.5
-offset_right = 46.0
-offset_bottom = 11.5
+offset_left = 174.0
+offset_top = 288.5
+offset_right = 266.0
+offset_bottom = 311.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "GAME OVER"
+
+[node name="ResultScreen" type="Control" parent="UI/UIManager/GameOverLayer" unique_id=310253650]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/UIManager/GameOverLayer/ResultScreen" unique_id=1655939543]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 30.0
+offset_top = 39.0
+offset_right = 403.0
+offset_bottom = 573.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScoreLabel" type="Label" parent="UI/UIManager/GameOverLayer/ResultScreen" unique_id=626484390]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 131.0
+offset_right = 385.0
+offset_bottom = 154.0
+
+[node name="TimeLabel" type="Label" parent="UI/UIManager/GameOverLayer/ResultScreen" unique_id=383152679]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 158.0
+offset_right = 385.0
+offset_bottom = 181.0
+
+[node name="RestartButton" type="Button" parent="UI/UIManager/GameOverLayer/ResultScreen" unique_id=2145253791]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 388.0
+offset_right = 389.0
+offset_bottom = 468.0
+text = "restart"
 
 [node name="LifeContainer" type="HBoxContainer" parent="UI" unique_id=1327857375]
 anchors_preset = 1

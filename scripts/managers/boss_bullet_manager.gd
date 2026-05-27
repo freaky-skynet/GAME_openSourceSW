@@ -31,7 +31,77 @@ func fire_p1_pattern1_radial(pos:Vector2,adjust:float):
 			# from_angle은 해당 각도로 크기가 1인 방향 벡터를 만듦
 			var dir = Vector2.from_angle(current_angle)
 			#활성화 함수 호출
-			bullet.activate(pos,dir)
+			bullet.activate(pos,dir,500.0)
+
+# 촘촘
+# 보스를 중심으로 원형으로 총알을 18발 쏨 (4초동안 18발), 회전O
+func fire_p2_rotating_radial(pos: Vector2, adjust: float):
+	var bullet_count = 18
+	var bullet_angle = 6
+	var angle_step = TAU / bullet_angle
+
+	for i in range(bullet_count):
+		var bullet = _get_inactive_bullet()
+
+		if bullet:
+			var angle = i * angle_step + adjust
+			var dir = Vector2.from_angle(angle)
+			bullet.activate(pos, dir, 300.0) #촘촘하나 느리다....
+
+
+# 플레이어 찾아서 부채꼴 모양으로 탄환 발사
+func fire_p2_aimed_spread(pos: Vector2, target_pos: Vector2):
+	var bullet_count = 6
+	var spread_angle = deg_to_rad(10)
+	var base_angle = (target_pos - pos).angle()
+
+	for i in range(bullet_count):
+		var bullet = _get_inactive_bullet()
+
+		if bullet:
+			var t = 0.0
+			if bullet_count > 1:
+				t = float(i) / float(bullet_count - 1)
+			
+			var angle = base_angle - spread_angle / 2.0 + spread_angle * t
+			var dir = Vector2.from_angle(angle)
+			bullet.activate(pos, dir, 450.0)
+
+# 십자 회전 탄막 (상하좌우 3발씩)
+func fire_p2_cross_spread(pos: Vector2, adjust: float):
+	var spread = deg_to_rad(3)
+	
+	for i in range(4):
+		var base_angle = i * PI / 2.0 + adjust
+		for j in range(-1, 2):
+			var bullet = _get_inactive_bullet()
+			if bullet:
+				var angle = base_angle + spread * j
+				var dir = Vector2.from_angle(angle)
+				bullet.activate(pos, dir, 450.0)
+
+func fire_p3_circle_spread(pos: Vector2, adjust: float):
+	var bullet_count = 36 
+	var angle_step = TAU / bullet_count
+	
+	for i in range(bullet_count):
+		var bullet = _get_inactive_bullet()
+		if bullet:
+			var angle = i * angle_step + adjust
+			var dir = Vector2.from_angle(angle)
+			
+			# 탄알 속도 450
+			bullet.activate(pos, dir, 450.0)
+
+func fire_p3_aimed_single(pos: Vector2, target_pos: Vector2):
+	var bullet = _get_inactive_bullet() # 총알 한 개만 꺼내기
+	
+	if bullet:
+		# 그냥 플레이어를 향한 직행 각도
+		var angle = (target_pos - pos).angle() 
+		var dir = Vector2.from_angle(angle)
+		# 탄알 속도
+		bullet.activate(pos, dir, 500.0)
 
 func fire_p1_pattern2_follow(pos:Vector2):
 	#처음 발사 후 정지, 이후 현재 플레이어 위치를 dir로 하여 다시 이동
