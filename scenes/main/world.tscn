@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://yx3vex85r052"]
 
 [ext_resource type="Script" uid="uid://gnmxsp6re104" path="res://scripts/background/scrolling_background.gd" id="1_2p2jg"]
-[ext_resource type="Script" path="res://scripts/background/world.gd" id="1_pasgk"]
+[ext_resource type="Script" uid="uid://d2jvysdykiehr" path="res://scripts/background/world.gd" id="1_pasgk"]
 [ext_resource type="Texture2D" uid="uid://cm7rwsl7w8b8s" path="res://assets/images/background/background_star.jpg" id="2_2p2jg"]
 [ext_resource type="PackedScene" uid="uid://b62tm8kkr02e8" path="res://scenes/player/player.tscn" id="3_0w3ym"]
 [ext_resource type="Script" path="res://scripts/background/planet_layer.gd" id="3_shf8f"]
@@ -269,11 +269,8 @@ offset_right = 389.0
 offset_bottom = 468.0
 text = "restart"
 
-[node name="LifeContainer" type="HBoxContainer" parent="UI" unique_id=1327857375]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
+[node name="VBoxContainer" type="VBoxContainer" parent="UI" unique_id=1866778710]
+offset_left = 440.0
+offset_right = 480.0
 offset_bottom = 40.0
-grow_horizontal = 0
 script = ExtResource("14_uv1xp")

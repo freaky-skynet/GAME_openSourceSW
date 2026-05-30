@@ -21,7 +21,7 @@ var current_phase=1
 var phase_point1:int=0
 var phase_point2:int=0
 
-var pattern_num:int = 1
+var pattern_num:int = 0
 var pos: Vector2 = Vector2.ZERO
 
 var variation: float = 0.0#공격패턴 변화 인수
@@ -41,6 +41,7 @@ func _on_ready() -> void:
 	
 	phase_point1 = int(max_hp*0.65)
 	phase_point2 = int(max_hp*0.3)
+	await get_tree().create_timer(4).timeout
 	boss_attack()
 	
 func _process(_float)->void:

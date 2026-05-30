@@ -1,7 +1,7 @@
-extends HBoxContainer
+extends VBoxContainer
 
 # 하트 이미지 리소스
-@export var heart_texture = preload("res://assets/images/bullets/bossBullet.png") 
+@export var heart_texture = preload("res://assets/images/player/player_heart.png")
 
 func _ready():
 	# "체력 변경" 소식이 들리면 업데이트 함수 실행

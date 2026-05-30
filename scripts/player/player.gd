@@ -8,9 +8,16 @@ extends CharacterBody2D
 @onready var shoot_timer=$ShootTimer
 @onready var player_dash = $PlayerDash
 @onready var player_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var barrier_sprite:AnimatedSprite2D=$BarrierSprite
 
 var max_hp: int = 3
 var current_hp: int = 3
+
+
+func _ready():
+	GlobalGameEvents.current_player_hp = current_hp
+	GlobalGameEvents.hp_changed.emit(current_hp)
+	barrier_sprite.pause()
 
 func _physics_process(_delta):
 	# 1. 입력 벡터 가져오기 (상하좌우 키 설정을 한 번에 처리)
@@ -92,10 +99,6 @@ func take_damage(amount: int):
 	
 	if current_hp <= 0:
 		die()
-
-func _ready():
-	GlobalGameEvents.current_player_hp = current_hp
-	GlobalGameEvents.hp_changed.emit(current_hp)
 	
 func die():
 	print("사망")
