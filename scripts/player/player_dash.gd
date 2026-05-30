@@ -52,6 +52,8 @@ func try_dash(input_direction: Vector2):
 	dash_duration_timer.start()
 	dash_cooldown_timer.start()
 	dash_invincible_timer.start()
+	player.barrier_sprite.show()
+	player.barrier_sprite.play("default")
 
 func get_dash_velocity() -> Vector2:
 	return dash_direction * dash_speed
@@ -63,4 +65,6 @@ func _on_dash_cooldown_timer_timeout():
 	can_dash = true
 	
 func _on_dash_invincible_timer_timeout():
+	player.barrier_sprite.hide()
+	player.barrier_sprite.pause()
 	player.is_invincible = false
