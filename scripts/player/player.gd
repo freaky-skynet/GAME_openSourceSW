@@ -9,6 +9,8 @@ extends CharacterBody2D
 @onready var player_dash = $PlayerDash
 @onready var player_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var barrier_sprite:AnimatedSprite2D=$BarrierSprite
+@onready var explosion_sprite:AnimatedSprite2D=$ExplosionSprite
+@onready var damaged_sfx:AudioStreamPlayer2D=$AudioStreamPlayer2D
 
 var max_hp: int = 3
 var current_hp: int = 3
@@ -96,9 +98,24 @@ func take_damage(amount: int):
 	
 	print("현재 피: ", current_hp)
 	GlobalGameEvents.hp_changed.emit(current_hp)
+	#피격 스프라이트 및 효과음 출력
+	explosion_sprite.show()
+	explosion_sprite.play("default")
+	damaged_sfx.play()
 	
 	if current_hp <= 0:
 		die()
+		return
+	#죽지 않았다면 무적시간 부여(await문 참조)
+	is_invincible=true
+	print("플레이어 무적 부여")
+	var tween = create_tween()
+	tween.tween_property(player_sprite, "modulate:a", 0.5, 0.3) # 반투명하게
+	tween.tween_property(player_sprite, "modulate:a", 1.0, 0.3) # 다시 보이게
+	await get_tree().create_timer(1.0).timeout
+	explosion_sprite.hide()
+	print("무적 종료")
+	is_invincible=false
 	
 func die():
 	print("사망")
