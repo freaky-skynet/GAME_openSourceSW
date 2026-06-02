@@ -6,6 +6,7 @@ var game_over_layer: CanvasLayer
 var game_clear_layer: CanvasLayer
 
 var boss_health_bar: ProgressBar
+var boss_health_fill_style: StyleBoxFlat
 
 var game_time: float = 0.0
 var is_game_active: bool = true
@@ -18,6 +19,8 @@ var ranking_label: Label
 
 var restart_button: Button
 var exit_button: Button
+
+var result_font: Font = preload("res://assets/neodgm.ttf")
 
 
 func _ready():
@@ -85,7 +88,7 @@ func _on_game_clear():
 
 	is_game_active = false
 
-	var final_score := GlobalGameEvents.current_score
+	var final_score: int = GlobalGameEvents.current_score
 	var final_time := game_time
 
 	# 클리어 기록 랭킹 저장
@@ -108,8 +111,34 @@ func _create_boss_health_bar() -> void:
 	boss_health_bar.value = 100
 	boss_health_bar.show_percentage = true
 
-	boss_health_bar.position = Vector2(90, 20)
-	boss_health_bar.size = Vector2(300, 24)
+	boss_health_bar.position = Vector2(150, 12)
+	boss_health_bar.size = Vector2(310, 24)
+	
+	# 배경 스타일
+	var background_style := StyleBoxFlat.new()
+	background_style.bg_color = Color(0.08, 0.08, 0.08, 0.9)
+	background_style.border_color = Color(1.0, 1.0, 1.0, 0.8)
+	background_style.set_border_width_all(2)
+	background_style.set_corner_radius_all(4)
+	
+	# 체력 채워지는 부분 스타일
+	boss_health_fill_style = StyleBoxFlat.new()
+	boss_health_fill_style.bg_color = Color(1.0, 0.9, 0.1, 1.0) # 처음은 노란색
+	boss_health_fill_style.set_corner_radius_all(4)
+
+	
+	# ProgressBar에 스타일 적용
+	boss_health_bar.add_theme_stylebox_override("background", background_style)
+	boss_health_bar.add_theme_stylebox_override("fill", boss_health_fill_style)
+	# 퍼센트 글자 색 / 크기 / 외곽선
+	boss_health_bar.add_theme_color_override("font_color", Color.WHITE)
+	boss_health_bar.add_theme_color_override("font_outline_color", Color.BLACK)
+	boss_health_bar.add_theme_constant_override("outline_size", 4)
+	boss_health_bar.add_theme_font_size_override("font_size", 18)
+	
+	# 폰트
+	var boss_font := load("res://assets/neodgm.ttf")
+	boss_health_bar.add_theme_font_override("font", boss_font)
 
 	add_child(boss_health_bar)
 
@@ -126,10 +155,35 @@ func _on_boss_hp_changed(current_hp: int, max_hp: int) -> void:
 	boss_health_bar.max_value = max_hp
 	boss_health_bar.value = current_hp
 
+	# 보스 체력 비율 계산
+	var hp_percent := float(current_hp) / float(max_hp) * 100.0
+
+	# 체력 비율에 따라 색 변경
+	if boss_health_fill_style:
+		if hp_percent <= 30.0:
+			boss_health_fill_style.bg_color = Color(1.0, 0.05, 0.02, 1.0) # 빨간색
+		elif hp_percent <= 65.0:
+			boss_health_fill_style.bg_color = Color(1.0, 0.45, 0.0, 1.0) # 주황색
+		else:
+			boss_health_fill_style.bg_color = Color(1.0, 0.9, 0.1, 1.0) # 노란색
+
 	if current_hp <= 0:
 		boss_health_bar.hide()
 	else:
 		boss_health_bar.show()
+
+func _style_result_label(label: Label, font_size: int, font_color: Color, outline_size: int = 2) -> void:
+	label.add_theme_font_override("font", result_font)
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", font_color)
+	label.add_theme_color_override("font_outline_color", Color.BLACK)
+	label.add_theme_constant_override("outline_size", outline_size)
+
+
+func _style_result_button(button: Button) -> void:
+	button.add_theme_font_override("font", result_font)
+	button.add_theme_font_size_override("font_size", 16)
+	button.add_theme_color_override("font_color", Color.WHITE)
 
 
 # 게임오버/게임클리어 공용 결과창
@@ -152,7 +206,7 @@ func _create_game_clear_layer() -> void:
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	game_clear_layer.add_child(background)
 
-	# 중앙 패널
+	# 중앙 패널zzzzzzzzzzzzzzzzzzzzz
 	var panel := ColorRect.new()
 	panel.name = "ResultPanel"
 	panel.color = Color(0.04, 0.04, 0.04, 0.94)
@@ -184,6 +238,7 @@ func _create_game_clear_layer() -> void:
 	result_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	result_title_label.custom_minimum_size = Vector2(0, 34)
 	result_title_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(result_title_label, 30, Color(1.0, 0.9, 0.1, 1.0), 4) # 제목 노란색
 	content.add_child(result_title_label)
 
 	# 점수
@@ -220,6 +275,7 @@ func _create_game_clear_layer() -> void:
 	ranking_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ranking_title_label.custom_minimum_size = Vector2(0, 30)
 	ranking_title_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(ranking_title_label, 18, Color(1.0, 0.9, 0.1, 1.0), 2)
 	content.add_child(ranking_title_label)
 
 	# 랭킹 내용
@@ -231,6 +287,7 @@ func _create_game_clear_layer() -> void:
 	ranking_label.custom_minimum_size = Vector2(0, 145)
 	ranking_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	ranking_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(ranking_label, 14, Color(0.85, 0.95, 1.0, 1.0), 1)
 	content.add_child(ranking_label)
 
 	# 버튼 행
@@ -248,6 +305,7 @@ func _create_game_clear_layer() -> void:
 	restart_button.custom_minimum_size = Vector2(105, 36)
 	restart_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	restart_button.focus_mode = Control.FOCUS_NONE
+	_style_result_button(restart_button)
 	restart_button.pressed.connect(_on_restart_pressed)
 	button_row.add_child(restart_button)
 
@@ -257,6 +315,7 @@ func _create_game_clear_layer() -> void:
 	exit_button.custom_minimum_size = Vector2(105, 36)
 	exit_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	exit_button.focus_mode = Control.FOCUS_NONE
+	_style_result_button(exit_button)
 	exit_button.pressed.connect(_on_exit_pressed)
 	button_row.add_child(exit_button)
 
@@ -270,6 +329,10 @@ func _show_result_screen(result_title: String, final_score: int, final_hp: int, 
 		return
 
 	result_title_label.text = result_title
+	if result_title == "GAME OVER":
+		result_title_label.add_theme_color_override("font_color", Color(1.0, 0.15, 0.1, 1.0))
+	else:
+		result_title_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.1, 1.0))
 	clear_score_label.text = "SCORE : " + str(final_score)
 	clear_hp_label.text = "HP : " + str(final_hp)
 	clear_time_label.text = "TIME : " + _format_time(final_time)
