@@ -21,6 +21,19 @@
 [ext_resource type="Script" uid="uid://d1l72owvdhpsx" path="res://scripts/ui/ui_manager.gd" id="12_2hobn"]
 [ext_resource type="Script" uid="uid://wylvek0afbv3" path="res://scripts/ui/score_label.gd" id="13_kt1us"]
 [ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://scripts/ui/life_container.gd" id="14_uv1xp"]
+[ext_resource type="FontFile" uid="uid://ccf3ig6y7nx4f" path="res://assets/neodgm.ttf" id="18_moqhu"]
+
+[sub_resource type="Theme" id="Theme_fvaq5"]
+default_font = ExtResource("18_moqhu")
+
+[sub_resource type="Theme" id="Theme_2hobn"]
+
+[sub_resource type="Theme" id="Theme_snr5s"]
+default_font = ExtResource("18_moqhu")
+
+[sub_resource type="Theme" id="Theme_moqhu"]
+default_font = ExtResource("18_moqhu")
+default_font_size = 30
 
 [sub_resource type="GDScript" id="GDScript_2p2jg"]
 script/source = "extends CanvasLayer
@@ -65,6 +78,9 @@ func _on_restart_pressed() -> void:
 	# 현재씬 다시 로드
 	get_tree().reload_current_scene()
 "
+
+[sub_resource type="Theme" id="Theme_kt1us"]
+default_font = ExtResource("18_moqhu")
 
 [sub_resource type="GDScript" id="GDScript_pasgk"]
 script/source = "extends Label
@@ -143,16 +159,18 @@ autoplay = true
 parameters/looping = true
 
 [node name="CountdownLayer" type="CanvasLayer" parent="." unique_id=127733954]
+visible = false
 
 [node name="CountdownLabel" type="Label" parent="CountdownLayer" unique_id=1232624266]
 offset_left = 91.0
 offset_top = 192.0
-offset_right = 376.0
-offset_bottom = 331.0
+offset_right = 393.0
+offset_bottom = 460.0
+theme = SubResource("Theme_fvaq5")
 theme_override_colors/font_color = Color(1, 1, 0.18431373, 1)
 theme_override_colors/font_outline_color = Color(1, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 100
+theme_override_constants/outline_size = 15
+theme_override_font_sizes/font_size = 150
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -166,14 +184,26 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+theme = SubResource("Theme_2hobn")
 script = ExtResource("12_2hobn")
+
+[node name="Score_2" type="Label" parent="UI/UIManager" unique_id=291537238]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = 11.0
+offset_right = 100.0
+offset_bottom = 27.0
+theme = SubResource("Theme_snr5s")
+text = "Score:"
 
 [node name="ScoreLabel" type="Label" parent="UI/UIManager" unique_id=2076159573]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 5.0
-offset_right = 50.0
-offset_bottom = 28.0
+offset_left = 16.0
+offset_top = 11.0
+offset_right = 136.0
+offset_bottom = 42.0
+theme = SubResource("Theme_moqhu")
 script = ExtResource("13_kt1us")
 
 [node name="GameOverLayer" type="CanvasLayer" parent="UI/UIManager" unique_id=948347534]
@@ -216,6 +246,7 @@ offset_right = 266.0
 offset_bottom = 311.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_kt1us")
 text = "GAME OVER"
 
 [node name="ResultScreen" type="Control" parent="UI/UIManager/GameOverLayer" unique_id=310253650]
@@ -271,7 +302,8 @@ offset_bottom = 468.0
 text = "restart"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI" unique_id=1866778710]
-offset_left = 440.0
-offset_right = 480.0
-offset_bottom = 40.0
+offset_left = 436.0
+offset_top = 41.0
+offset_right = 476.0
+offset_bottom = 81.0
 script = ExtResource("14_uv1xp")
