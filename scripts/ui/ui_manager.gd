@@ -20,6 +20,8 @@ var ranking_label: Label
 var restart_button: Button
 var exit_button: Button
 
+var result_font: Font = preload("res://assets/neodgm.ttf")
+
 
 func _ready():
 	game_over_layer = get_node_or_null("GameOverLayer") as CanvasLayer
@@ -170,6 +172,20 @@ func _on_boss_hp_changed(current_hp: int, max_hp: int) -> void:
 	else:
 		boss_health_bar.show()
 
+func _style_result_label(label: Label, font_size: int, font_color: Color, outline_size: int = 2) -> void:
+	label.add_theme_font_override("font", result_font)
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", font_color)
+	label.add_theme_color_override("font_outline_color", Color.BLACK)
+	label.add_theme_constant_override("outline_size", outline_size)
+
+
+func _style_result_button(button: Button) -> void:
+	button.add_theme_font_override("font", result_font)
+	button.add_theme_font_size_override("font_size", 16)
+	button.add_theme_color_override("font_color", Color.WHITE)
+
+
 # 게임오버/게임클리어 공용 결과창
 func _create_game_clear_layer() -> void:
 	game_clear_layer = CanvasLayer.new()
@@ -222,6 +238,7 @@ func _create_game_clear_layer() -> void:
 	result_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	result_title_label.custom_minimum_size = Vector2(0, 34)
 	result_title_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(result_title_label, 30, Color(1.0, 0.9, 0.1, 1.0), 4) # 제목 노란색
 	content.add_child(result_title_label)
 
 	# 점수
@@ -258,6 +275,7 @@ func _create_game_clear_layer() -> void:
 	ranking_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	ranking_title_label.custom_minimum_size = Vector2(0, 30)
 	ranking_title_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(ranking_title_label, 18, Color(1.0, 0.9, 0.1, 1.0), 2)
 	content.add_child(ranking_title_label)
 
 	# 랭킹 내용
@@ -269,6 +287,7 @@ func _create_game_clear_layer() -> void:
 	ranking_label.custom_minimum_size = Vector2(0, 145)
 	ranking_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	ranking_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(ranking_label, 14, Color(0.85, 0.95, 1.0, 1.0), 1)
 	content.add_child(ranking_label)
 
 	# 버튼 행
@@ -286,6 +305,7 @@ func _create_game_clear_layer() -> void:
 	restart_button.custom_minimum_size = Vector2(105, 36)
 	restart_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	restart_button.focus_mode = Control.FOCUS_NONE
+	_style_result_button(restart_button)
 	restart_button.pressed.connect(_on_restart_pressed)
 	button_row.add_child(restart_button)
 
@@ -295,6 +315,7 @@ func _create_game_clear_layer() -> void:
 	exit_button.custom_minimum_size = Vector2(105, 36)
 	exit_button.process_mode = Node.PROCESS_MODE_ALWAYS
 	exit_button.focus_mode = Control.FOCUS_NONE
+	_style_result_button(exit_button)
 	exit_button.pressed.connect(_on_exit_pressed)
 	button_row.add_child(exit_button)
 
@@ -308,6 +329,10 @@ func _show_result_screen(result_title: String, final_score: int, final_hp: int, 
 		return
 
 	result_title_label.text = result_title
+	if result_title == "GAME OVER":
+		result_title_label.add_theme_color_override("font_color", Color(1.0, 0.15, 0.1, 1.0))
+	else:
+		result_title_label.add_theme_color_override("font_color", Color(1.0, 0.9, 0.1, 1.0))
 	clear_score_label.text = "SCORE : " + str(final_score)
 	clear_hp_label.text = "HP : " + str(final_hp)
 	clear_time_label.text = "TIME : " + _format_time(final_time)
