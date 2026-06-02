@@ -44,7 +44,7 @@ var pattern_run_id: int = 0
 #5.26 패턴 작동방식을 AUTOSTART되는 타이머가 TIMEOUT될때마다 호출하는식으로 바꿈
 
 
-var current_hp: int = 100
+var current_hp: int = max_hp
 var current_phase=1
 var phase_point1:int=0
 var phase_point2:int=0

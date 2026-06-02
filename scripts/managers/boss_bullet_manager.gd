@@ -105,7 +105,7 @@ func fire_p3_aimed(pos: Vector2, target_pos: Vector2):
 		if bullet:
 			var angle = base_angle + (i - 1) * spread_angle
 			var dir = Vector2.from_angle(angle)
-			bullet.activate(pos, dir, 650.0)
+			bullet.activate(pos, dir, 350.0)
 		
 
 func fire_p3_chaos_gatling(pos: Vector2, count: int = 3) -> void:
