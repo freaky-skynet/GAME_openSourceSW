@@ -80,6 +80,7 @@ func fire_p2_cross_spread(pos: Vector2, adjust: float):
 				var dir = Vector2.from_angle(angle)
 				bullet.activate(pos, dir, 450.0)
 
+
 func fire_p3_circle_spread(pos: Vector2, adjust: float):
 	var bullet_count = 36 
 	var angle_step = TAU / bullet_count
@@ -93,15 +94,30 @@ func fire_p3_circle_spread(pos: Vector2, adjust: float):
 			# 탄알 속도 450
 			bullet.activate(pos, dir, 450.0)
 
-func fire_p3_aimed_single(pos: Vector2, target_pos: Vector2):
-	var bullet = _get_inactive_bullet() # 총알 한 개만 꺼내기
+# 플레이어의 위치를 향해 조준 사격하는 모듈
+func fire_p3_aimed(pos: Vector2, target_pos: Vector2):
+	var bullet_count = 3
+	var spread_angle = deg_to_rad(12) # 총알 사이의 벌어지는 각도 (12도)
+	var base_angle = (target_pos - pos).angle()
 	
-	if bullet:
-		# 그냥 플레이어를 향한 직행 각도
-		var angle = (target_pos - pos).angle() 
-		var dir = Vector2.from_angle(angle)
-		# 탄알 속도
-		bullet.activate(pos, dir, 500.0)
+	for i in range(bullet_count):
+		var bullet = _get_inactive_bullet()
+		if bullet:
+			var angle = base_angle + (i - 1) * spread_angle
+			var dir = Vector2.from_angle(angle)
+			bullet.activate(pos, dir, 650.0)
+		
+
+func fire_p3_chaos_gatling(pos: Vector2, count: int = 3) -> void:
+	for i in range(count):
+		var bullet = _get_inactive_bullet()
+		if bullet:
+			# 360도 무작위 각도 추출
+			var random_angle = randf_range(0.0, TAU)
+			var dir = Vector2.from_angle(random_angle)
+			
+			var random_speed = randf_range(550.0, 750.0)
+			bullet.activate(pos, dir, random_speed)
 
 func fire_p1_pattern2_follow(pos:Vector2):
 	#처음 발사 후 정지, 이후 현재 플레이어 위치를 dir로 하여 다시 이동
