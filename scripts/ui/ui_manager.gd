@@ -333,6 +333,7 @@ func _format_time(time_sec: float) -> String:
 # 현재 게임 씬 재시작
 func _on_restart_pressed():
 	get_tree().paused = false
+	GlobalGameEvents.combo_level = 1 #버그 수정 끝나는 경우 콤보 초기화
 	get_tree().reload_current_scene()
 
 func _on_exit_pressed():

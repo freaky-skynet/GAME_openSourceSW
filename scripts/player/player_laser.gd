@@ -41,7 +41,9 @@ func _try_damage(target: Object) -> void:
 
 	target.take_damage(damage)
 	GlobalGameEvents.player_hit_enemy.emit(damage)
-
+	
+	GlobalGameEvents.request_score_change.emit(100)#버그 수정 레이저도 점수 추가
+	
 	await get_tree().create_timer(damage_interval).timeout
 
 	can_damage = true
