@@ -23,6 +23,20 @@ var is_phase_transitioning: bool = false
 var pattern_run_id: int = 0 
 @export var phase_invincible_extra_time: float = 1.0
 
+# 보스 격파 연출용
+@export var death_explosion_count: int = 14
+@export var death_explosion_interval: float = 0.15
+@export var death_small_explosion_radius: float = 11.0
+@export var death_big_explosion_radius: float = 38.0
+@export var death_explosion_expand_scale: float = 2.4
+@export var death_explosion_area_x: float = 70.0
+@export var death_explosion_area_y: float = 55.0
+
+# 흰색 폭발 원 설정
+@export var death_explosion_line_width: float = 7.0
+@export var death_small_explosion_duration: float = 0.55
+@export var death_big_explosion_duration: float = 0.9
+
 @onready var boss_bullet_manager = %BossBulletManager
 @onready var fire_timer: Timer = $FireTimer#총알 발사간격
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -552,14 +566,120 @@ func _is_pattern_cancelled(run_id: int, phase: int) -> bool:
 		or run_id != pattern_run_id
 		or current_phase != phase
 	)
-	
+#보스 격파 연출
+func _play_boss_destroy_animation() -> void:
+	print("보스 격파 연출 시작")
+
+	if sprite:
+		sprite.modulate = Color(1.0, 0.75, 0.75, 1.0)
+
+	for i in range(death_explosion_count):
+		var offset := Vector2(
+			randf_range(-death_explosion_area_x, death_explosion_area_x),
+			randf_range(-death_explosion_area_y, death_explosion_area_y)
+		)
+
+		_spawn_explosion_ring(offset, death_small_explosion_radius)
+
+		if sprite:
+			sprite.position = Vector2(
+				randf_range(-3.0, 3.0),
+				randf_range(-3.0, 3.0)
+			)
+
+		await get_tree().create_timer(death_explosion_interval).timeout
+
+	if sprite:
+		sprite.position = Vector2.ZERO
+		sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+
+	_spawn_explosion_ring(Vector2.ZERO, death_big_explosion_radius, true)
+
+	if sprite:
+		var fade_tween := create_tween()
+		fade_tween.tween_property(sprite, "modulate:a", 0.0, 0.75)
+		await fade_tween.finished
+	else:
+		await get_tree().create_timer(0.75).timeout
+
+	print("보스 격파 연출 종료")
+
+func _spawn_explosion_ring(local_pos: Vector2, radius: float, is_big: bool = false) -> void:
+	var duration := death_small_explosion_duration
+
+	if is_big:
+		duration = death_big_explosion_duration
+
+	_create_white_explosion_circle(
+		local_pos,
+		radius,
+		death_explosion_line_width,
+		duration
+	)
+#격파시 하얀색 폭발원
+func _create_white_explosion_circle(
+	local_pos: Vector2,
+	radius: float,
+	width: float,
+	duration: float
+) -> void:
+	var ring := Line2D.new()
+
+	ring.name = "BossDeathExplosion"
+	ring.closed = true
+	ring.width = width
+	ring.default_color = Color(1.0, 1.0, 1.0, 0.95)
+	ring.z_index = 80
+	ring.position = local_pos
+	ring.scale = Vector2.ONE
+
+	var point_count := 96
+
+	for i in range(point_count):
+		var angle := TAU * float(i) / float(point_count)
+		var point := Vector2(cos(angle), sin(angle)) * radius
+		ring.add_point(point)
+
+	add_child(ring)
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+
+	tween.tween_property(
+		ring,
+		"scale",
+		Vector2.ONE * death_explosion_expand_scale,
+		duration
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+	tween.tween_property(
+		ring,
+		"modulate:a",
+		0.0,
+		duration
+	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+	tween.finished.connect(ring.queue_free)
+
 func die() -> void:
 	if is_dead:
 		return
 
 	is_dead = true
+	is_invincible = true
 
-	
+	# 죽는 순간 남아 있던 패턴 중단
+	if pattern_timer:
+		pattern_timer.stop()
+
+	if fire_timer:
+		fire_timer.stop()
+
+	_cancel_current_pattern()
+
+	# 보스 격파 연출 실행
+	await _play_boss_destroy_animation()
+
 	GlobalGameEvents.request_score_change.emit(clear_score)
 	GlobalGameEvents.game_clear.emit()
 
