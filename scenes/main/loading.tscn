@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dqn2c367oo3qu"]
+
+[node name="Loading" type="Control" unique_id=1764600043]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1491148331]
+layout_mode = 0
+offset_right = 506.0
+offset_bottom = 657.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1232198949]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 194.0
+offset_right = 437.0
+offset_bottom = 389.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=659876891]
+layout_mode = 2
+text = "조작법!"
