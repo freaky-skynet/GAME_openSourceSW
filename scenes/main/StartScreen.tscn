@@ -1,7 +1,25 @@
 [gd_scene format=3 uid="uid://bujovg54j7ut"]
 
 [ext_resource type="Script" uid="uid://mpqterksmsqj" path="res://scripts/ui/start_screen.gd" id="1_j5nue"]
+[ext_resource type="FontFile" uid="uid://ccf3ig6y7nx4f" path="res://assets/neodgm.ttf" id="2_eoksc"]
 [ext_resource type="Texture2D" uid="uid://b0o82dah4g8op" path="res://assets/images/loading.png" id="2_j3maa"]
+[ext_resource type="Texture2D" uid="uid://db4mvprpv5qop" path="res://assets/images/typo_image.png" id="4_e6opg"]
+
+[sub_resource type="Theme" id="Theme_eoksc"]
+default_font = ExtResource("2_eoksc")
+default_font_size = 35
+
+[sub_resource type="Theme" id="Theme_e6opg"]
+default_font = ExtResource("2_eoksc")
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_denkv"]
+default_font = ExtResource("2_eoksc")
+default_font_size = 11
+
+[sub_resource type="Theme" id="Theme_fikxp"]
+default_font = ExtResource("2_eoksc")
+default_font_size = 20
 
 [node name="StartScreen" type="Control" unique_id=1842547362]
 layout_mode = 3
@@ -12,31 +30,49 @@ script = ExtResource("1_j5nue")
 layout_mode = 0
 offset_right = 482.0
 offset_bottom = 635.0
-color = Color(0.7308749, 0.7693242, 0.85376847, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="StartButton" type="Button" parent="." unique_id=138480657]
 layout_mode = 0
 offset_left = 109.0
-offset_top = 474.0
+offset_top = 456.0
 offset_right = 388.0
-offset_bottom = 523.0
-text = "START"
+offset_bottom = 505.0
+theme = SubResource("Theme_eoksc")
+theme_override_colors/font_color = Color(0.9841679, 5.8719515e-06, 1.1551381e-06, 1)
+theme_override_colors/font_focus_color = Color(1, 0.70980394, 0.6627451, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.70980394, 0.6627451, 1)
+theme_override_colors/font_hover_color = Color(1, 0.70837533, 0.6616397, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.70980394, 0.6627451, 1)
+text = "!!!START!!!"
 
 [node name="TitleLabel" type="Label" parent="." unique_id=918983706]
 layout_mode = 0
-offset_left = 170.0
-offset_top = 135.0
-offset_right = 311.0
-offset_bottom = 172.0
-text = "~~탄막슈팅게임~~
-press start button"
+offset_left = 108.0
+offset_top = 519.0
+offset_right = 378.0
+offset_bottom = 556.0
+theme = SubResource("Theme_e6opg")
+text = "press start button"
+
+[node name="TitleLabel2" type="Label" parent="." unique_id=1202367223]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 602.0
+offset_right = 416.0
+offset_bottom = 667.0
+theme = SubResource("Theme_denkv")
+theme_override_colors/font_color = Color(0.7514611, 0.751461, 0.751461, 1)
+text = "오픈소스SW개론 최종 프로젝트 12조
+22011756 이해성 24011221 이현빈 2101762 김동현 22011817 윤정민"
 
 [node name="StartRankingLabel" type="Label" parent="." unique_id=346540553]
 layout_mode = 0
 offset_left = 102.0
-offset_top = 226.0
+offset_top = 258.0
 offset_right = 393.0
-offset_bottom = 427.0
+offset_bottom = 459.0
+theme = SubResource("Theme_fikxp")
 
 [node name="GuideImage" type="TextureRect" parent="." unique_id=1213801640]
 visible = false
@@ -44,3 +80,8 @@ layout_mode = 0
 offset_right = 480.0
 offset_bottom = 640.0
 texture = ExtResource("2_j3maa")
+
+[node name="TypoImage" type="Sprite2D" parent="." unique_id=1290780642]
+position = Vector2(242, 154)
+scale = Vector2(0.18439226, 0.18439226)
+texture = ExtResource("4_e6opg")

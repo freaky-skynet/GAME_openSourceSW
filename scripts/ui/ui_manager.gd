@@ -6,6 +6,7 @@ var game_over_layer: CanvasLayer
 var game_clear_layer: CanvasLayer
 
 var boss_health_bar: ProgressBar
+var boss_health_fill_style: StyleBoxFlat
 
 var game_time: float = 0.0
 var is_game_active: bool = true
@@ -108,8 +109,34 @@ func _create_boss_health_bar() -> void:
 	boss_health_bar.value = 100
 	boss_health_bar.show_percentage = true
 
-	boss_health_bar.position = Vector2(90, 20)
-	boss_health_bar.size = Vector2(300, 24)
+	boss_health_bar.position = Vector2(150, 12)
+	boss_health_bar.size = Vector2(310, 24)
+	
+	# 배경 스타일
+	var background_style := StyleBoxFlat.new()
+	background_style.bg_color = Color(0.08, 0.08, 0.08, 0.9)
+	background_style.border_color = Color(1.0, 1.0, 1.0, 0.8)
+	background_style.set_border_width_all(2)
+	background_style.set_corner_radius_all(4)
+	
+	# 체력 채워지는 부분 스타일
+	boss_health_fill_style = StyleBoxFlat.new()
+	boss_health_fill_style.bg_color = Color(1.0, 0.9, 0.1, 1.0) # 처음은 노란색
+	boss_health_fill_style.set_corner_radius_all(4)
+
+	
+	# ProgressBar에 스타일 적용
+	boss_health_bar.add_theme_stylebox_override("background", background_style)
+	boss_health_bar.add_theme_stylebox_override("fill", boss_health_fill_style)
+	# 퍼센트 글자 색 / 크기 / 외곽선
+	boss_health_bar.add_theme_color_override("font_color", Color.WHITE)
+	boss_health_bar.add_theme_color_override("font_outline_color", Color.BLACK)
+	boss_health_bar.add_theme_constant_override("outline_size", 4)
+	boss_health_bar.add_theme_font_size_override("font_size", 18)
+	
+	# 폰트
+	var boss_font := load("res://assets/neodgm.ttf")
+	boss_health_bar.add_theme_font_override("font", boss_font)
 
 	add_child(boss_health_bar)
 
@@ -126,11 +153,22 @@ func _on_boss_hp_changed(current_hp: int, max_hp: int) -> void:
 	boss_health_bar.max_value = max_hp
 	boss_health_bar.value = current_hp
 
+	# 보스 체력 비율 계산
+	var hp_percent := float(current_hp) / float(max_hp) * 100.0
+
+	# 체력 비율에 따라 색 변경
+	if boss_health_fill_style:
+		if hp_percent <= 30.0:
+			boss_health_fill_style.bg_color = Color(1.0, 0.05, 0.02, 1.0) # 빨간색
+		elif hp_percent <= 65.0:
+			boss_health_fill_style.bg_color = Color(1.0, 0.45, 0.0, 1.0) # 주황색
+		else:
+			boss_health_fill_style.bg_color = Color(1.0, 0.9, 0.1, 1.0) # 노란색
+
 	if current_hp <= 0:
 		boss_health_bar.hide()
 	else:
 		boss_health_bar.show()
-
 
 # 게임오버/게임클리어 공용 결과창
 func _create_game_clear_layer() -> void:
@@ -152,7 +190,7 @@ func _create_game_clear_layer() -> void:
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	game_clear_layer.add_child(background)
 
-	# 중앙 패널
+	# 중앙 패널zzzzzzzzzzzzzzzzzzzzz
 	var panel := ColorRect.new()
 	panel.name = "ResultPanel"
 	panel.color = Color(0.04, 0.04, 0.04, 0.94)
