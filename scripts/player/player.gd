@@ -12,8 +12,8 @@ extends CharacterBody2D
 @onready var explosion_sprite:AnimatedSprite2D=$ExplosionSprite
 @onready var damaged_sfx:AudioStreamPlayer2D=$AudioStreamPlayer2D
 
-var max_hp: int = 3
-var current_hp: int = 3
+var max_hp: int = 5
+var current_hp: int = 5
 
 
 func _ready():

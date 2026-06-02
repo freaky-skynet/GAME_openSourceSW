@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://dgbbracj0qs7y"]
 
 [ext_resource type="Script" uid="uid://b8vxrbgnjpgxs" path="res://scripts/boss/boss_bullet.gd" id="1_rcspk"]
-[ext_resource type="Texture2D" uid="uid://18ri4d5a2e3b" path="res://assets/images/bullets/bossBullet.png" id="1_ybu4u"]
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://scenes/boss/boss.tscn" id="2_6o4xk"]
+[ext_resource type="Texture2D" uid="uid://cywwx5xev53du" path="res://assets/images/bullets/test_bullet.png" id="3_icfbj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_icfbj"]
-radius = 13.0
 
 [node name="BossBullet" type="Area2D" unique_id=583485317]
 z_index = 15
@@ -14,7 +13,7 @@ script = ExtResource("1_rcspk")
 boss_scene = ExtResource("2_6o4xk")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1225179532]
-texture = ExtResource("1_ybu4u")
+texture = ExtResource("3_icfbj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1460957927]
 shape = SubResource("CircleShape2D_icfbj")
