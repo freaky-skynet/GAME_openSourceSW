@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bujovg54j7ut"]
 
 [ext_resource type="Script" uid="uid://mpqterksmsqj" path="res://scripts/ui/start_screen.gd" id="1_j5nue"]
+[ext_resource type="Texture2D" uid="uid://b0o82dah4g8op" path="res://assets/images/loading.png" id="2_j3maa"]
 
 [node name="StartScreen" type="Control" unique_id=1842547362]
 layout_mode = 3
@@ -36,3 +37,10 @@ offset_left = 102.0
 offset_top = 226.0
 offset_right = 393.0
 offset_bottom = 427.0
+
+[node name="GuideImage" type="TextureRect" parent="." unique_id=1213801640]
+visible = false
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 640.0
+texture = ExtResource("2_j3maa")
