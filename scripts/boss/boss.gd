@@ -37,14 +37,33 @@ var phase_point2:int=0
 
 var pattern_num:int = 0
 var pos: Vector2 = Vector2.ZERO
-
 var variation: float = 0.0#공격패턴 변화 인수
-
 var is_dead: bool = false
-
 var is_p3_aiming: bool = false#3페이즈 기관총
 
+# 3페이즈 상태 관리 및 이동용 변수
+enum P3State { DRIFTING, DASHING } # 산책 모드와 돌진 모드
+var current_p3_state: P3State = P3State.DRIFTING
+
+@export var p3_normal_speed: float = 150.0 # 산책 속도
+@export var p3_dash_speed: float = 500.0   # 돌진 속도
+var p3_target_pos: Vector2 = Vector2.ZERO
+var p3_is_waiting: bool = false
+
+var min_x: float = 75.0
+var max_x: float = 405.0
+var min_y: float = 75.0
+var max_y: float = 210.0
+
+#  둥둥 효과 변수
+@export var float_amplitude: float = 10.0
+@export var float_speed: float = 3.0
+var time_passed: float = 0.0
+var base_position: Vector2               # 이동 계산용 뼈대 위치
+
+
 func _on_ready() -> void:
+	base_position = global_position
 	current_hp = max_hp
 	fire_timer.wait_time=fire_time
 	#pattern_timer가 다 탔을때마다 패턴 발사하도록 설정
@@ -62,7 +81,22 @@ func _on_ready() -> void:
 	await get_tree().create_timer(4).timeout
 	boss_attack()
 	
-func _process(_float)->void:
+func _process(delta: float) -> void:
+	# 1. 둥둥 떠다니는 효과
+	time_passed += delta
+	var float_offset = sin(time_passed * float_speed) * float_amplitude
+	
+	# 2. 3페이즈 이동 상태 제어
+	if current_phase == 3 and not is_dead and not is_phase_transitioning:
+		if current_p3_state == P3State.DRIFTING:
+			_process_p3_drift(delta)
+		elif current_p3_state == P3State.DASHING:
+			_process_p3_dash(delta)
+			
+	# 3. 최종 위치 적용 (뼈대 위치 + 둥둥 효과)
+	global_position = Vector2(base_position.x, base_position.y + float_offset)
+	
+	# 4. 탄환 매니저가 사용할 발사 위치(pos) 갱신
 	pos = global_position
 	
 func phase_manager(current_hp:int,_max_hp:int)->void:
@@ -79,6 +113,11 @@ func phase_manager(current_hp:int,_max_hp:int)->void:
 		
 	if before_phase != current_phase:
 		print("PHASE", current_phase)
+		
+		if current_phase == 3:
+			current_p3_state = P3State.DRIFTING
+			_set_new_p3_random_target()
+			
 		_start_phase_transition(before_phase, current_phase)
 		phase_changed.emit(current_phase)
 	
@@ -89,6 +128,8 @@ func boss_attack():
 	#보스 페이즈 변경시 멈춤
 	if is_dead or is_phase_transitioning:
 		return
+	pattern_run_id += 1
+	
 	
 	# 새 패턴 시작 시 이전에 남아있던 패턴 무효화
 	# 페이즈가 바뀔 때만 _cancel_current_pattern()으로 run_id가 증가함
@@ -143,33 +184,25 @@ func phase2_pattern_fire(run_id: int) -> void:
 			3:
 				p2_pattern3()
 
-#3페이즈
+
+# 3페이즈
 func phase3_pattern_fire(run_id: int) -> void:
-	#겹침 해결용
 	if _is_pattern_cancelled(run_id, 3):
 		return
-	# 전방위 사격
-	boss_bullet_manager.fire_p3_circle_spread(pos, variation)
-	variation += 0.1 
 	
-	# 기관총
-	if not is_p3_aiming:
-		is_p3_aiming = true # 기관총 가동
-		_p3_aiming_loop()
+	current_p3_state = P3State.DASHING
+	p3_is_waiting = false
+	_set_new_p3_random_target()
 
-func _p3_aiming_loop() -> void: #무한 루프 해결용
-	while current_phase == 3 and not is_dead and not is_phase_transitioning:
-		await get_tree().create_timer(0.1).timeout
+	match pattern_num:
+		1:
+			p3_pattern1(run_id)
+		2:
+			p3_pattern2(run_id)
+		3:
+			p3_pattern3(run_id)
 
-		if current_phase != 3 or is_dead or is_phase_transitioning:
-			break
 
-		var player = get_tree().get_first_node_in_group("player")
-
-		if player:
-			boss_bullet_manager.fire_p3_aimed_single(pos, player.global_position)
-
-	is_p3_aiming = false
 
 func p1_pattern1(run_id: int) -> void:#페이즈1 패턴1, 흩뿌리기
 	if _is_pattern_cancelled(run_id, 1):#겹침 해결용
@@ -254,15 +287,61 @@ func p2_pattern3() -> void:
 	boss_bullet_manager.fire_p2_cross_spread(pos, variation)
 	variation += 0.35
 
-func p3_pattern1() -> void:
-	if is_dead:
-		return
+
+func p3_pattern1(run_id: int) -> void:
+	for burst in range(3):
+		if _is_pattern_cancelled(run_id, 3): return
 		
-	print("phase3 pattern1")
+		var locked_target_pos: Vector2 = Vector2.ZERO
+		var player = get_tree().get_first_node_in_group("player")
+		
+		if player:
+			locked_target_pos = player.global_position
+		else:
+			return
 
-	boss_bullet_manager.fire_p3_circle_spread(pos, variation)
-	variation += 0.35
+		for i in range(3):
+			if _is_pattern_cancelled(run_id, 3): return
+			
+			boss_bullet_manager.fire_p3_aimed(pos, locked_target_pos)
+			
+			await get_tree().create_timer(0.1).timeout
+		
+		if _is_pattern_cancelled(run_id, 3): return
+		await get_tree().create_timer(0.4).timeout
 
+
+
+func p3_pattern2(run_id: int) -> void:
+	for i in range(25):
+		if _is_pattern_cancelled(run_id, 3): return
+		for multi in range(3):
+			boss_bullet_manager.fire_p3_chaos_gatling(pos)
+			await get_tree().create_timer(0.02).timeout
+		fire_timer.start()
+		await fire_timer.timeout
+
+
+
+func p3_pattern3(run_id: int) -> void:
+	for i in range(25):
+		if _is_pattern_cancelled(run_id, 3): return
+		
+		# 사방 난사
+		for multi in range(3):
+			boss_bullet_manager.fire_p3_chaos_gatling(pos)
+			await get_tree().create_timer(0.02).timeout
+		
+		# 주기적으로 플레이어 조준 콤보 섞기
+		if i % 5 < 3:
+			var player = get_tree().get_first_node_in_group("player")
+			if player:
+				for multi in range(3):
+					boss_bullet_manager.fire_p3_aimed(pos, player.global_position)
+					await get_tree().create_timer(0.04).timeout
+					
+		fire_timer.start()
+		await fire_timer.timeout
 
 func take_damage(amount: int) -> void:
 	if is_dead:
@@ -323,48 +402,34 @@ func _update_phase_sprite(new_phase: int) -> void: #보스스프라이트 업데
 
 #보스 페이즈 애니매이션
 func _start_phase_transition(old_phase: int, new_phase: int) -> void:
-	if is_phase_transitioning:
-		return
+	if is_phase_transitioning: return
 
 	is_phase_transitioning = true
 	is_invincible = true
-
 	_cancel_current_pattern()
 	
-	print("페이즈 전환 시작: ", old_phase, " -> ", new_phase)
-
-	if pattern_timer:
-		pattern_timer.stop()
-
-	if fire_timer:
-		fire_timer.stop()
+	if pattern_timer: pattern_timer.stop()
+	if fire_timer: fire_timer.stop()
 
 	var break_radii: Array[float] = []
- 
-	if old_phase == 1 and new_phase >= 2:
-		break_radii.append(outer_shield_radius)
- 
-	if old_phase <= 2 and new_phase >= 3:
-		break_radii.append(inner_shield_radius)
+	if old_phase == 1 and new_phase >= 2: break_radii.append(outer_shield_radius)
+	if old_phase <= 2 and new_phase >= 3: break_radii.append(inner_shield_radius)
  
 	_update_phase_sprite(new_phase)
-
 	await _play_shield_break_effect(break_radii)
-	# 무적 좀더 유지
+	
+	if new_phase == 3:
+		await _play_p3_rage_and_burst()
 	await get_tree().create_timer(phase_invincible_extra_time).timeout
 
 	is_invincible = false
 	is_phase_transitioning = false
 
-	print("페이즈 전환 종료")
-
 	if not is_dead:
 		if pattern_timer:
 			pattern_timer.stop()
 			pattern_timer.start()
-		# 페이즈 전환 직후 다음 페이즈 패턴을 바로 시작
 		boss_attack.call_deferred()
-		
 
 #보스 보호막 파괴 효과 
 func _play_shield_break_effect(radii: Array[float]) -> void:
@@ -499,3 +564,78 @@ func die() -> void:
 	GlobalGameEvents.game_clear.emit()
 
 	queue_free()
+	
+# 3페이즈 상태 기계(State Machine) 전용 함수들
+
+# 랜덤 목적지 설정
+func _set_new_p3_random_target() -> void:
+	p3_target_pos = Vector2(
+		randf_range(min_x, max_x),
+		randf_range(min_y, max_y)
+	)
+
+# 산책 모드: 천천히 둥둥 이동하고 잠깐 쉬기
+func _process_p3_drift(delta: float) -> void:
+	base_position = base_position.move_toward(p3_target_pos, p3_normal_speed * delta)
+	
+	if base_position.distance_to(p3_target_pos) < 5.0 and not p3_is_waiting:
+		p3_is_waiting = true
+		
+		if current_phase == 3 and not is_dead and not is_phase_transitioning and current_p3_state == P3State.DRIFTING:
+			_set_new_p3_random_target()
+			p3_is_waiting = false
+
+
+# 돌진 모드 대쉬 > 잠깐 멈춤 
+func _process_p3_dash(delta: float) -> void:
+	if p3_is_waiting:
+		return
+		
+	base_position = base_position.move_toward(p3_target_pos, p3_dash_speed * delta)
+	
+	if base_position.distance_to(p3_target_pos) < 5.0:
+		p3_is_waiting = true # 도착했으니 대기 
+		
+		# 대쉬 후 잠깐 멈춤
+		await get_tree().create_timer(0.3).timeout
+		
+		# 탄만 쏘기
+		boss_bullet_manager.fire_p3_circle_spread(base_position, variation)
+		variation += 0.1
+		
+		# 탄막 쏘고 다시 잠깐 멈추기
+		await get_tree().create_timer(0.3).timeout
+		
+		# 사격 후 다시 산책 모드로 복귀
+		if current_phase == 3 and not is_dead and not is_phase_transitioning:
+			current_p3_state = P3State.DRIFTING
+			p3_is_waiting = false
+			_set_new_p3_random_target()
+
+			
+
+# 페이즈 3 등장 애니메이션
+func _play_p3_rage_and_burst() -> void:
+	if not sprite: return
+	
+	
+	# 1. 진동 효과 설정 (원래 스프라이트 중심점 기억)
+	var original_offset = sprite.offset
+	
+	sprite.modulate = Color(2.0, 0.3, 0.3, 1.0) 
+	
+	# 0.5초 동안 보스를 사방으로 흔들기
+	for i in range(10):
+		sprite.offset = Vector2(randf_range(-6.0, 6.0), randf_range(-6.0, 6.0))
+		await get_tree().create_timer(0.05).timeout
+		
+	# 진동이 끝난 후 오프셋 원상복구
+	sprite.offset = original_offset
+	
+	# 2. 강화형 서클 탄막
+	for burst in range(4):
+		boss_bullet_manager.fire_p3_circle_spread(global_position, burst * 0.05)
+		await get_tree().create_timer(0.05).timeout
+		
+	# 복구
+	sprite.modulate = Color(1.0, 0.8, 0.8, 1.0)
