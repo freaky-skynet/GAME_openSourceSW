@@ -88,7 +88,7 @@ func _on_game_clear():
 
 	is_game_active = false
 
-	var final_score := GlobalGameEvents.current_score
+	var final_score: int = GlobalGameEvents.current_score
 	var final_time := game_time
 
 	# 클리어 기록 랭킹 저장
