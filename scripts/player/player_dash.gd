@@ -2,8 +2,8 @@ extends Node
 
 @export var dash_speed: float = 1200.0
 @export var dash_duration: float = 0.15
-@export var dash_cooldown: float = 1.0
-@export var dash_invincible_duration: float = 1.5 # 무적 시간
+@export var dash_cooldown: float = 3.0
+@export var dash_invincible_duration: float = 1.0 # 무적 시간
 
 # 자식 노드 변수값 갖고오기
 @onready var player: CharacterBody2D = get_parent()

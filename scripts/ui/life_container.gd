@@ -8,7 +8,7 @@ func _ready():
 	GlobalGameEvents.hp_changed.connect(_on_hp_changed)
 	
 	# 처음 시작할 때 하트 3개 세팅
-	setup_hearts(3)
+	setup_hearts(5)
 
 func setup_hearts(max_hp: int):
 	# 기존 하트 싹 비우기
