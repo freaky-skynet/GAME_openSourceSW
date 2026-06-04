@@ -17,12 +17,12 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not player:
 		return
-	if GlobalGameEvents.combo_level<3:
-		deactivate()
-
 	global_position = player.global_position
-
 	line.set_point_position(1, target_position)
+	
+	if GlobalGameEvents.combo_level<3:
+		hide()
+		enabled=false
 
 	if is_colliding():
 		line.set_point_position(1, to_local(get_collision_point()))
