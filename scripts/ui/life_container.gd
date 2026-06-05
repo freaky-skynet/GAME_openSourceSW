@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends HBoxContainer
 
 # 하트 이미지 리소스 경로
 @export var heart_texture = preload("res://Hearts.png")
