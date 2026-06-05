@@ -140,6 +140,7 @@ one_shot = true
 
 [node name="Boss" parent="ObjectLayer" unique_id=574752634 groups=["boss"] instance=ExtResource("5_3wopa")]
 position = Vector2(256, 168)
+max_hp = 500
 pattern_time = 3.5
 
 [node name="PlayerBulletManager" parent="." unique_id=1369619833 instance=ExtResource("6_bolsh")]
@@ -303,12 +304,12 @@ offset_right = 389.0
 offset_bottom = 468.0
 text = "restart"
 
-[node name="HBoxContainer" type="VBoxContainer" parent="UI" unique_id=1397669328]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI" unique_id=1483397803]
 layout_direction = 3
-offset_left = -23.0
-offset_top = -80.0
-offset_right = 40.0
-offset_bottom = 166.0
+offset_left = 27.0
+offset_top = 53.0
+offset_right = 90.0
+offset_bottom = 299.0
 alignment = 2
 script = ExtResource("14_uv1xp")
 
@@ -316,8 +317,8 @@ script = ExtResource("14_uv1xp")
 layout_mode = 2
 
 [node name="heart_sprite" type="Sprite2D" parent="UI/HBoxContainer/Control" unique_id=1308852047]
-position = Vector2(26.250004, 8.749998)
-scale = Vector2(1.8437505, 2.0312498)
+position = Vector2(41.75, 22.749994)
+scale = Vector2(3.78125, 3.7812493)
 texture = ExtResource("23_snr5s")
 hframes = 6
 vframes = 7
