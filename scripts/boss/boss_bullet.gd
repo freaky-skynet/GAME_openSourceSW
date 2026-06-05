@@ -7,6 +7,10 @@ var default_speed: float = 500.0
 var direction: Vector2 = Vector2.ZERO
 var is_active: bool = false
 
+@export var anim_fps: float = 15.0     # 초당 프레임 속도
+var current_frame: float = 0.0
+@onready var sprite = $Sprite2D
+
 func _ready():
 	default_speed = speed
 	# 처음에 생성될 때는 비활성화 상태로 시작
@@ -18,6 +22,12 @@ func _physics_process(delta):
 	
 	# 탄환 이동 로직
 	position += direction * speed * delta
+	
+	# 총알 사진 로직
+	current_frame += delta * anim_fps
+	if current_frame >= 22.0:
+		current_frame = 0.0
+	sprite.frame = int(current_frame)
 	
 	# 화면 밖으로 나가면 스스로 비활성화 (화면 크기는 프로젝트 설정을 따름)
 	var screen_size = get_viewport_rect().size
