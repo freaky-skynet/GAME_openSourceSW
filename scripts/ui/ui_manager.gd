@@ -248,6 +248,7 @@ func _create_game_clear_layer() -> void:
 	clear_score_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	clear_score_label.custom_minimum_size = Vector2(0, 26)
 	clear_score_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(clear_score_label, 18, Color.WHITE, 2) # 추가
 	content.add_child(clear_score_label)
 
 	# HP
@@ -257,6 +258,7 @@ func _create_game_clear_layer() -> void:
 	clear_hp_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	clear_hp_label.custom_minimum_size = Vector2(0, 26)
 	clear_hp_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(clear_hp_label, 18, Color.WHITE, 2) # 추가
 	content.add_child(clear_hp_label)
 
 	# 시간
@@ -266,6 +268,7 @@ func _create_game_clear_layer() -> void:
 	clear_time_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	clear_time_label.custom_minimum_size = Vector2(0, 26)
 	clear_time_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_style_result_label(clear_time_label, 18, Color.WHITE, 2) # 추가
 	content.add_child(clear_time_label)
 
 	# 랭킹 제목
