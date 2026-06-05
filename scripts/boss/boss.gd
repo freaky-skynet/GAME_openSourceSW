@@ -120,13 +120,13 @@ func phase_manager(current_hp:int,_max_hp:int)->void:
 	
 	if (phase_point2 <= current_hp && current_hp <= phase_point1):
 		current_phase=2
-		print("PHASE2")
+		#print("PHASE2")
 	elif (current_hp < phase_point2):
 		current_phase=3
-		print("PHASE3")
+		#print("PHASE3")
 		
 	if before_phase != current_phase:
-		print("PHASE", current_phase)
+		#print("PHASE", current_phase)
 		
 		if current_phase == 3:
 			current_p3_state = P3State.DRIFTING
@@ -273,7 +273,7 @@ func p2_pattern1() -> void:
 	if is_dead:
 		return
 
-	print("phase2 pattern1")
+	#print("phase2 pattern1")
 	boss_bullet_manager.fire_p2_rotating_radial(pos, variation)
 	variation += 0.25
 
@@ -287,7 +287,7 @@ func p2_pattern2() -> void:
 
 	if player:
 		boss_bullet_manager.fire_p2_aimed_spread(pos, player.global_position)
-		print("phase2 pattern2 player confirmed")
+		# print("phase2 pattern2 player confirmed")
 	else:
 		boss_bullet_manager.fire_p2_rotating_radial(pos, variation)
 
@@ -296,7 +296,7 @@ func p2_pattern3() -> void:
 	if is_dead:
 		return
 		
-	print("phase2 pattern3")
+	#print("phase2 pattern3")
 
 	boss_bullet_manager.fire_p2_cross_spread(pos, variation)
 	variation += 0.35
@@ -362,7 +362,7 @@ func take_damage(amount: int) -> void:
 		return
 
 	if is_invincible:
-		print("페이즈 전환 중 무적")
+		#print("페이즈 전환 중 무적")
 		return
 
 	if amount <= 0:
@@ -371,7 +371,7 @@ func take_damage(amount: int) -> void:
 	current_hp -= amount
 	current_hp = max(current_hp, 0)
 
-	print("보스 현재 체력: ", current_hp, "/", max_hp)
+	#print("보스 현재 체력: ", current_hp, "/", max_hp)
 
 	# 체력이 변할 때마다 UI에 전달
 	GlobalGameEvents.boss_hp_changed.emit(current_hp, max_hp)
@@ -568,7 +568,7 @@ func _is_pattern_cancelled(run_id: int, phase: int) -> bool:
 	)
 #보스 격파 연출
 func _play_boss_destroy_animation() -> void:
-	print("보스 격파 연출 시작")
+	#print("보스 격파 연출 시작")
 
 	if sprite:
 		sprite.modulate = Color(1.0, 0.75, 0.75, 1.0)
@@ -602,7 +602,7 @@ func _play_boss_destroy_animation() -> void:
 	else:
 		await get_tree().create_timer(0.75).timeout
 
-	print("보스 격파 연출 종료")
+	#print("보스 격파 연출 종료")
 
 func _spawn_explosion_ring(local_pos: Vector2, radius: float, is_big: bool = false) -> void:
 	var duration := death_small_explosion_duration
