@@ -22,6 +22,8 @@
 [ext_resource type="Script" uid="uid://wylvek0afbv3" path="res://scripts/ui/score_label.gd" id="13_kt1us"]
 [ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://scripts/ui/life_container.gd" id="14_uv1xp"]
 [ext_resource type="FontFile" uid="uid://ccf3ig6y7nx4f" path="res://assets/neodgm.ttf" id="18_moqhu"]
+[ext_resource type="Script" uid="uid://co68ertdgbbbw" path="res://scripts/ui/heart_sprite.gd" id="23_fvaq5"]
+[ext_resource type="Texture2D" uid="uid://cy6ktwiuwmwdu" path="res://Hearts.png" id="23_snr5s"]
 
 [sub_resource type="Theme" id="Theme_fvaq5"]
 default_font = ExtResource("18_moqhu")
@@ -301,11 +303,22 @@ offset_right = 389.0
 offset_bottom = 468.0
 text = "restart"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI" unique_id=1120975589]
+[node name="HBoxContainer" type="VBoxContainer" parent="UI" unique_id=1397669328]
 layout_direction = 3
-offset_left = 16.0
-offset_top = 40.0
-offset_right = 56.0
-offset_bottom = 80.0
+offset_left = -23.0
+offset_top = -80.0
+offset_right = 40.0
+offset_bottom = 166.0
 alignment = 2
 script = ExtResource("14_uv1xp")
+
+[node name="Control" type="Control" parent="UI/HBoxContainer" unique_id=21847304]
+layout_mode = 2
+
+[node name="heart_sprite" type="Sprite2D" parent="UI/HBoxContainer/Control" unique_id=1308852047]
+position = Vector2(26.250004, 8.749998)
+scale = Vector2(1.8437505, 2.0312498)
+texture = ExtResource("23_snr5s")
+hframes = 6
+vframes = 7
+script = ExtResource("23_fvaq5")
