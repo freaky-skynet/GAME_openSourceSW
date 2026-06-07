@@ -20,7 +20,7 @@ var ranking_label: Label
 var restart_button: Button
 var exit_button: Button
 
-var result_font: Font = preload("res://assets/neodgm.ttf")
+var result_font: Font = preload("res://assets/images/UI/font/neodgm.ttf")
 
 
 func _ready():
@@ -137,7 +137,7 @@ func _create_boss_health_bar() -> void:
 	boss_health_bar.add_theme_font_size_override("font_size", 18)
 	
 	# 폰트
-	var boss_font := load("res://assets/neodgm.ttf")
+	var boss_font := load("res://assets/images/UI/font/neodgm.ttf")
 	boss_health_bar.add_theme_font_override("font", boss_font)
 
 	add_child(boss_health_bar)

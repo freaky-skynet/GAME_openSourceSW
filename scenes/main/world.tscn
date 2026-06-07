@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://wylvek0afbv3" path="res://scripts/ui/score_label.gd" id="13_kt1us"]
 [ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://scripts/ui/life_container.gd" id="14_uv1xp"]
 [ext_resource type="FontFile" uid="uid://ccf3ig6y7nx4f" path="res://assets/images/UI/font/neodgm.ttf" id="18_moqhu"]
-[ext_resource type="Script" uid="uid://co68ertdgbbbw" path="res://scripts/ui/heart_sprite.gd" id="23_fvaq5"]
+[ext_resource type="Script" path="res://scripts/ui/heart_sprite.gd" id="23_fvaq5"]
 [ext_resource type="Texture2D" uid="uid://cy6ktwiuwmwdu" path="res://assets/images/player/Hearts.png" id="23_snr5s"]
 
 [sub_resource type="Theme" id="Theme_fvaq5"]
