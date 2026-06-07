@@ -14,10 +14,11 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="sample"
+config/name="OpenSourceShooting_12"
+config/description="오픈소스SW 12조의 최종프로젝트 결과물입니다."
 run/main_scene="uid://bujovg54j7ut"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://assets/images/icon.svg"
+config/icon="uid://bma8fgee2p7c"
 
 [autoload]
 
