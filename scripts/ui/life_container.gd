@@ -1,7 +1,7 @@
 extends HBoxContainer
 
 # 하트 이미지 리소스 경로
-@export var heart_texture = preload("res://Hearts.png")
+@export var heart_texture = preload("res://assets/images/player/Hearts.png")
 var heart_script = preload("res://scripts/ui/heart_sprite.gd")
 
 func _ready():

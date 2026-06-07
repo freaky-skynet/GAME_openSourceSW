@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://yx3vex85r052"]
 
 [ext_resource type="Script" uid="uid://gnmxsp6re104" path="res://scripts/background/scrolling_background.gd" id="1_2p2jg"]
-[ext_resource type="Script" path="res://scripts/background/world.gd" id="1_pasgk"]
+[ext_resource type="Script" uid="uid://d2jvysdykiehr" path="res://scripts/background/world.gd" id="1_pasgk"]
 [ext_resource type="Texture2D" uid="uid://cm7rwsl7w8b8s" path="res://assets/images/background/background_star.jpg" id="2_2p2jg"]
 [ext_resource type="PackedScene" uid="uid://b62tm8kkr02e8" path="res://scenes/player/player.tscn" id="3_0w3ym"]
-[ext_resource type="Script" path="res://scripts/background/planet_layer.gd" id="3_shf8f"]
+[ext_resource type="Script" uid="uid://bmqurch4avdba" path="res://scripts/background/planet_layer.gd" id="3_shf8f"]
 [ext_resource type="Script" uid="uid://dte7o7thdwyv4" path="res://scripts/player/player_dash.gd" id="4_ailbm"]
 [ext_resource type="Texture2D" uid="uid://2gha6wploj4k" path="res://assets/images/background/planet/mars.png" id="4_pasgk"]
 [ext_resource type="PackedScene" uid="uid://d3ycgff47exhc" path="res://scenes/boss/boss.tscn" id="5_3wopa"]
@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://wylvek0afbv3" path="res://scripts/ui/score_label.gd" id="13_kt1us"]
 [ext_resource type="Script" uid="uid://nfy1etttq45u" path="res://scripts/ui/life_container.gd" id="14_uv1xp"]
 [ext_resource type="FontFile" uid="uid://ccf3ig6y7nx4f" path="res://assets/images/UI/font/neodgm.ttf" id="18_moqhu"]
-[ext_resource type="Script" uid="uid://co68ertdgbbbw" path="res://scripts/ui/heart_sprite.gd" id="23_fvaq5"]
+[ext_resource type="Script" path="res://scripts/ui/heart_sprite.gd" id="23_fvaq5"]
 [ext_resource type="Texture2D" uid="uid://cy6ktwiuwmwdu" path="res://assets/images/player/Hearts.png" id="23_snr5s"]
 
 [sub_resource type="Theme" id="Theme_fvaq5"]
