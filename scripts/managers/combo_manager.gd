@@ -9,7 +9,7 @@ var combo_counter:int = 0
 var combo_level:int = 1
 
 # 폰트 강제적용
-var combo_font: Font = preload("res://assets/neodgm.ttf")
+var combo_font: Font = preload("res://assets/images/UI/font/neodgm.ttf")
 # ComboControl 아래에 있는 모든 Label을 저장
 var combo_labels: Array[Label] = []
 
