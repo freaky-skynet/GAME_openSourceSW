@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://ccf3ig6y7nx4f"
-path="res://.godot/imported/neodgm.ttf-c80a1d4f1264f6308dea9b0c74fc1d8c.fontdata"
+path="res://.godot/imported/neodgm.ttf-d7fb6876e16d834b7cc6b8e90f226c9a.fontdata"
 
 [deps]
 
-source_file="res://assets/images/UI/font/neodgm.ttf"
-dest_files=["res://.godot/imported/neodgm.ttf-c80a1d4f1264f6308dea9b0c74fc1d8c.fontdata"]
+source_file="res://assets/neodgm.ttf"
+dest_files=["res://.godot/imported/neodgm.ttf-d7fb6876e16d834b7cc6b8e90f226c9a.fontdata"]
 
 [params]
 

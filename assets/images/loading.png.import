@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1ifkdn0kl1ek"
-path="res://.godot/imported/GlowingBall Blue 22frames RPG.png-ee7b0db6ed1ade5c9eecf5d06b017a42.ctex"
+uid="uid://b0o82dah4g8op"
+path="res://.godot/imported/loading.png-632d520dd9bd4463bef1db99049b8908.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/bullets/GlowingBall Blue 22frames RPG.png"
-dest_files=["res://.godot/imported/GlowingBall Blue 22frames RPG.png-ee7b0db6ed1ade5c9eecf5d06b017a42.ctex"]
+source_file="res://assets/images/loading.png"
+dest_files=["res://.godot/imported/loading.png-632d520dd9bd4463bef1db99049b8908.ctex"]
 
 [params]
 
